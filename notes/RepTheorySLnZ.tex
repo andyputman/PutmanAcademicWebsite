@@ -1,0 +1,867 @@
+\documentclass[11pt]{article}
+
+\title{\vspace{-40pt}The representation theory of $\SL_n(\Z)$}
+\author{Andrew Putman}
+\date{}
+
+\usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
+\usepackage{mathtools}
+\usepackage{epsfig,pinlabel,paralist}
+\usepackage[vmargin=1in, hmargin=1.25in]{geometry}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{type1cm}
+\usepackage{calc}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage[all,cmtip]{xy}
+\usepackage{eucal}
+\usepackage{paralist}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{etoolbox}
+
+\usepackage[bookmarks, bookmarksdepth=2, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+
+\apptocmd{\thebibliography}{\raggedright}{}{}
+
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{maintheorem}{Theorem}
+\newtheorem{maincorollary}[maintheorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{unnumberedlemma}{Lemma}
+\newtheorem{sublemma}[theorem]{Sublemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{claima}{Claim}
+\newtheorem*{claim}{Claim}
+\newtheorem{step}{Step}
+\newtheorem{subcase}{Subcase}
+\renewcommand{\themaintheorem}{\Alph{maintheorem}}
+
+\theoremstyle{definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{defn}[theorem]{Definition}
+\newenvironment{definition}[1][]{\begin{defn}[#1]\pushQED{\qed}}{\popQED \end{defn}}
+\newtheorem{notation}[theorem]{Notation}
+
+\theoremstyle{remark}
+\newtheorem{rmk}[theorem]{Remark}
+\newenvironment{remark}[1][]{\begin{rmk}[#1] \pushQED{\qed}}{\popQED \end{rmk}}
+\newtheorem{remarks}[theorem]{Remarks}
+\newtheorem{eg}[theorem]{Example}
+\newenvironment{example}[1][]{\begin{eg}[#1] \pushQED{\qed}}{\popQED \end{eg}}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{numberedremark}[theorem]{Remark}
+
+% Sets of Functions
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Iso}{Iso}
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Homeo}{Homeo}
+\DeclareMathOperator{\Ker}{ker}
+\DeclareMathOperator{\Coker}{coker}
+\DeclareMathOperator{\Image}{Im}
+
+% My Favorite Groups
+\DeclareMathOperator{\Mod}{Mod}
+\DeclareMathOperator{\MCG}{MCG}
+\newcommand\Torelli{\ensuremath{{\mathcal I}}}
+\DeclareMathOperator{\IA}{IA}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\U}{U}
+\DeclareMathOperator{\SU}{SU}
+\newcommand\fsl{\ensuremath{\mathfrak{sl}}}
+\newcommand\fgl{\ensuremath{\mathfrak{gl}}}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\ad}{ad}
+
+% Important Spaces
+\newcommand\HBolic{\ensuremath{\mathbb{H}}}
+\newcommand\Teich{\ensuremath{{\mathcal T}}}
+\newcommand\CNosep{\ensuremath{\mathcal{CNS}}}
+\newcommand\Sphere[1]{\ensuremath{\mathbf{S}^{#1}}}
+\newcommand\Ball[1]{\ensuremath{\mathbf{B}^{#1}}}
+\newcommand\Proj{\ensuremath{\mathbb{P}}}
+
+% Number Systems
+\newcommand\R{\ensuremath{\mathbb{R}}}
+\newcommand\C{\ensuremath{\mathbb{C}}}
+\newcommand\Z{\ensuremath{\mathbb{Z}}}
+\newcommand\Q{\ensuremath{\mathbb{Q}}}
+\newcommand\N{\ensuremath{\mathbb{N}}}
+\newcommand\Field{\ensuremath{\mathbb{F}}}
+\DeclareMathOperator{\Char}{char}
+
+% (Co-)Homology
+\DeclareMathOperator{\HH}{H}
+\DeclareMathOperator{\CC}{C}
+\DeclareMathOperator{\Tor}{Tor}
+\newcommand\RH{\ensuremath{\widetilde{\HH}}}
+
+% Misc
+\DeclareMathOperator{\Max}{max}
+\DeclareMathOperator{\Min}{min}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Out}{Out}
+\DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Interior}{Int}
+\newcommand\Span[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand\CaptionSpace{\hspace{0.2in}}
+\DeclareMathOperator{\Dim}{dim}
+\newcommand\Set[2]{\ensuremath{\{\text{#1 $|$ #2}\}}}
+\newcommand\Pres[2]{\ensuremath{\langle \text{#1 $|$ #2} \rangle}}
+
+% Figures
+\newcommand\Figure[4]{
+\begin{figure}[t]
+\centering
+\centerline{\psfig{file=#2,scale=#4}}
+\caption{#3}
+\label{#1}
+\end{figure}}
+
+% Document specific macros go here
+\newcommand\orho{\ensuremath{\overline{\rho}}}
+\newcommand\otau{\ensuremath{\overline{\tau}}}
+\newcommand\oa{\ensuremath{\overline{a}}}
+\newcommand\cP{\ensuremath{\mathcal{P}}}
+\newcommand\cC{\ensuremath{\mathcal{C}}}
+\newcommand\cK{\ensuremath{\mathcal{K}}}
+\newcommand\cO{\ensuremath{\mathcal{O}}}
+\newcommand\og{\ensuremath{\overline{g}}}
+\newcommand\cB{\ensuremath{\mathcal{B}}}
+\newcommand\cM{\ensuremath{\mathcal{M}}}
+\newcommand\uR{\ensuremath{\underline{R}}}
+\newcommand\coB{\ensuremath{\overline{\mathcal{B}}}}
+\newcommand\bk{\ensuremath{\mathbf{k}}}
+\newcommand\tSLn{\ensuremath{\widehat{\SL_n(\Z)}}}
+
+\begin{document}
+
+\vspace{-10pt}
+\maketitle
+
+\vspace{-24pt}
+\begin{abstract}
+\noindent
+We give a fairly complete description of the finite-dimensional characteristic $0$ representation theory of $\SL_n(\Z)$ for 
+$n \geq 3$, following work of Margulis and Lubotzky.
+\end{abstract}
+
+\section{Introduction}
+
+Fix a field $\bk$ of characteristic $0$.  The goal of this note is to describe the finite-dimensional
+representations of $\SL_n(\Z)$ over $\bk$.  Since $\SL_2(\Z)$ is very close to a free group,
+its representation theory is quite wild and we will have little to say about it.  For $n \geq 3$, however,
+there is a beautiful answer whose basic idea goes back to Lubotzky's PhD thesis \cite{LubotzkyThesis}, building
+on work of Margulis.
+
+\paragraph{Rational representations.}
+There are two natural sources of representations of $\SL_n(\Z)$.  The first are rational
+representations of the algebraic group $\SL_n(\bk)$, which can be restricted to the subgroup
+$\SL_n(\Z)<\SL_n(\bk)$.  These representations are very well-behaved: they decompose into
+direct sums of irreducible representations, and at least when $\bk$ is algebraically closed
+these irreducible representations are completely understood (a good starting point for
+this is \cite{HumphreysBook}).  As we will prove later, a rational representation $V$ of
+$\SL_n(\bk)$ is irreducible if and only if its restriction to $\SL_n(\Z)$ is irreducible.
+The key point is that $\SL_n(\Z)$ is Zariski dense in $\SL_n(\bk)$.  It follows that this picture
+remains unchanged when the representations are restricted to $\SL_n(\Z)$.
+
+\paragraph{Finite groups.}
+The second source of representations of $\SL_n(\Z)$ come from finite quotients.  If
+$\pi\colon \SL_n(\Z) \rightarrow F$ is a surjective map from $\SL_n(\Z)$ to a finite group $F$ and
+$V$ is a representation of $F$ over $\bk$, then $V$ is also a representation of
+$\SL_n(\Z)$ via $\pi$.  For $n \geq 3$, these finite quotients are well-understood:
+the congruence subgroup property for $\SL_n(\Z)$ (proved
+independently by Bass--Lazard--Serre \cite{BassLazardSerre} and Mennicke \cite{Mennicke}) says that
+for every finite quotient $\pi\colon \SL_n(\Z) \rightarrow F$, there is some $\ell \geq 2$ such that
+$\pi$ factors through the map
+$\SL_n(\Z) \longrightarrow \SL_n(\Z/\ell)$
+that reduces matrices modulo $\ell$.  It is thus enough to only consider representations
+of $\SL_n(\Z/\ell)$ for $\ell \geq 2$.  These are also well-understood, at least when $\ell$ is prime.
+
+\paragraph{Profinite completion}
+The finite quotients of $\SL_n(\Z)$ form an inverse system of finite groups, and their inverse
+limit 
+\[\tSLn = \varprojlim_{\substack{K \lhd \SL_n(\Z) \\ [\SL_n(\Z):K] < \infty}} \SL_n(\Z)/K\]
+is the {\em profinite completion} of $\SL_n(\Z)$.  Endowing each $\SL_n(\Z)/K$ with the discrete topology and
+$\tSLn$ with the resulting inverse limit topology, the group $\tSLn$ is a compact totally disconnected
+topological group.  It is immediate from the definitions that a finite-dimensional representation
+$\rho\colon \SL_n(\Z) \rightarrow \GL(V)$ factors through a finite group if and only if it
+factors through a continuous homomorphism $\tSLn \rightarrow \GL(V)$, where $\GL(V)$ is endowed
+with the discrete topology.
+
+\begin{remark}
+Consider some $\ell \geq 2$.  Letting
+\[\ell = p_1^{k_1} \cdots p_m^{k_m},\]
+be its prime factorization, the Chinese remainder theorem can be used to prove that
+\[\SL_n(\Z/\ell) \cong \SL_n(\Z/p_1^{k_1}) \times \cdots \times \SL_n(\Z/p_m^{k_m}).\]
+Using this, the congruence subgroup property implies that
+\[\tSLn \cong \prod_p \varprojlim_k \SL_n(\Z/p^k) \cong \prod_p \SL_n(\Z_p).\qedhere\]
+\end{remark}
+
+\paragraph{Combining the two families}
+The main theorem we will discuss says informally that all representations of 
+$\SL_n(\Z)$ are built from combinations of the above basic families of representations.
+The natural inclusions
+\[\SL_n(\Z) \hookrightarrow \SL_n(\bk) \quad \text{and} \quad \SL_n(\Z) \hookrightarrow \tSLn\]
+combine to give an inclusion
+\[\SL_n(\Z) \hookrightarrow \SL_n(\bk) \times \tSLn.\]
+Define a {\em rational representation} of $\SL_n(\bk) \times \tSLn$ to be a finite-dimensional
+$\bk$-vector space $V$ equipped with a homomorphism
+$\rho\colon \SL_n(\bk) \times \tSLn \rightarrow \GL(V)$ such that 
+$\rho|_{\SL_n(\bk)}$ is rational and $\rho|_{\tSLn}$ is
+continuous.  We then have the following theorem, which was essentially proved by Lubotzky \cite{LubotzkyThesis}.
+
+\begin{maintheorem}[Extending representations]
+\label{maintheorem:lubotzky}
+Let $\bk$ be a field of characteristic $0$ and let $n \geq 3$.  Let $V$ be a finite-dimensional
+vector space over $\bk$ and let $\rho\colon \SL_n(\Z) \rightarrow \GL(V)$ be a representation.
+Then $\rho$ can be uniquely extended to a rational representation
+$\rho\colon \SL_n(\bk) \times \tSLn \rightarrow \GL(V)$.  Moreover, if $W \subset V$ is a subspace that
+is an $\SL_n(\Z)$-subrepresentation of $V$, then $W$ is also an
+$\SL_n(\bk) \times \tSLn$-subrepresentation.
+\end{maintheorem}
+
+\begin{remark}
+Theorem \ref{maintheorem:lubotzky} implies that $\SL_n \times \tSLn$ is the {\em proalgebraic completion}
+of $\SL_n(\Z)$; see, e.g., \cite{BassLubotzky}.
+\end{remark}
+
+\paragraph{Consequences.}
+Theorem \ref{maintheorem:lubotzky} implies that the finite-dimensional representations of $\SL_n(\Z)$ over
+$\bk$ are in bijection with the rational representations of 
+$\SL_n(\bk) \times \tSLn$.  Moreover, this bijection preserves subrepresentations, and thus restricts
+to a bijection between the irreducible representations of these groups.  Finally, the fact that
+this bijection preserves subrepresentations implies that it takes direct sums of representations
+to direct sums of representations.
+
+Now, every rational representation of $\SL_n(\bk) \times \tSLn$ decomposes as a direct sum of irreducible
+subrepresentations; indeed, such a representation $\rho\colon \SL_n(\bk) \times \tSLn \rightarrow \GL(V)$
+factors through $\SL_n(\bk) \times F$ for some finite group $F$, making $V$ into a rational
+representation of the algebraic group $\SL_n(\bk) \times F$.  It is standard that such representations
+decompose into direct sums of irreducibles.  Combining this with Theorem \ref{maintheorem:lubotzky}, we deduce
+the following.
+
+\begin{maincorollary}[Semisimplicity]
+\label{maincorollary:semisimple}
+Let $\bk$ be a field of characteristic $0$ and let $n \geq 3$.  Then every finite-dimensional representation
+of $\SL_n(\Z)$ over $\bk$ decomposes as a direct sum of irreducible representations.
+\end{maincorollary}
+
+\paragraph{Irreducible representations.}
+If $\bk$ is algebraically closed, then the irreducible rational representations of $\SL_n(\bk) \times \tSLn$
+have a simple description.  Recall that if $G$ and $H$ are finite groups and $\bk$ is an algebraically
+closed field of characteristic $0$, then the irreducible representations of $G \times H$ over $\bk$ are precisely
+the representations of the form $V \otimes W$, where $V$ is an irreducible representation of $G$ and
+$W$ is an irreducible representation of $H$.  The following theorem says that the same thing holds
+for $\SL_n(\bk) \times \tSLn$.
+
+\begin{maintheorem}[Irreducible representations]
+\label{maintheorem:irreducible}
+Let $\bk$ be an algebraically closed field of characteristic $0$ and let $n \geq 2$.  Then the
+irreducible rational representations of $\SL_n(\bk) \times \tSLn$ are precisely those of the
+form $V \otimes W$, where $V$ and $W$ are as follows:
+\begin{compactitem}
+\item $V$ is an irreducible finite-dimensional rational representation of $\SL_n(\bk)$.
+\item $W$ is an irreducible finite-dimensional continuous representation of $\tSLn$ over $\bk$.
+\end{compactitem}
+\end{maintheorem}
+
+Theorem \ref{maintheorem:lubotzky} implies for $n \geq 3$ that the restrictions of these to 
+$\SL_n(\Z)$ are precisely the irreducible finite-dimensional representations of $\SL_n(\Z)$ over $\bk$.
+
+\paragraph{Super-rigidity.}
+The main tool for proving Theorem \ref{maintheorem:lubotzky} is super-rigidity for $\SL_n(\Z)$, one version
+of which is as follows.  The use of this theorem is the key place where the assumption that $n \geq 3$ is
+used.
+
+\begin{maintheorem}[Super-rigidity]
+\label{maintheorem:superrigidity}
+Let $\bk$ be a field of characteristic $0$ and let $n \geq 3$.  
+Let $V$ be a finite-dimensional $\bk$-vector space and $\rho\colon \SL_n(\Z) \rightarrow \GL(V)$
+be a representation.  Then there exists a rational representation $f\colon \SL_n(\bk) \rightarrow \GL(V)$ of
+the algebraic group $\SL_n(\bk)$ and a finite-index subgroup $K$ of $\SL_n(\Z)$ such that $f|_K = \rho|_K$.
+\end{maintheorem}
+
+The history of Theorem \ref{maintheorem:superrigidity} is a little complicated.
+For $\bk = \Q$, it was originally proved by Bass--Milnor--Serre \cite{BassMilnorSerre}
+using the congruence subgroup property.  This proof was later extended to general $\bk$ by
+Ragunathan \cite{Ragunathan}.  Shortly before this, however, Margulis proved his famous
+super-rigidity theorem for higher-rank lattices \cite{MargulisBook}.  One special case of this
+result is as follows (see \cite[Theorem 16.1.1]{WitteBook}):
+\begin{compactitem}
+\item For some $n \geq 3$, let $\Gamma$ be a non-uniform lattice in $\SL_n(\R)$ and let
+$\rho\colon \Gamma \rightarrow \GL_m(\R)$ be any homomorphism.  Then there exists a continuous
+homomorphism $f\colon \SL_n(\R) \rightarrow \GL_m(\R)$ and a finite-index subgroup $K<\Gamma$
+such that $f|_K = \rho|_K$.
+\end{compactitem}
+On the one hand, this is much more general than Theorem \ref{maintheorem:superrigidity} since it
+applies to {\em all} non-uniform lattices, not just $\SL_n(\Z)$.  On the other hand, it
+appears to just work for $\bk = \R$ and to only give a continuous extension of $\rho$.  However,
+it is not hard to derive the general case of Theorem \ref{maintheorem:superrigidity} from the above statement.
+We will not prove Theorem \ref{maintheorem:superrigidity}, but in Appendix \ref{appendix:rigidity} we will
+show how to derive it from the above version of Margulis's result.
+
+\begin{remark}
+In \cite[Theorem 6]{Steinberg}, Steinberg sketches a remarkably elementary proof
+of Theorem \ref{maintheorem:superrigidity}.  Like Bass--Milnor--Serre and
+Ragunathan's proofs, it uses the congruence subgroup property, but otherwise
+just relies on elementary facts about linear algebra and algebraic groups.  In
+fact, he states it in a somewhat different way, but he proves a stronger result
+that is essentially equivalent to Theorem \ref{maintheorem:lubotzky}.
+\end{remark} 
+
+\paragraph{Outline.}
+We begin in \S \ref{section:rigidity} by proving a density result that will be needed for the
+uniqueness part of Theorem \ref{maintheorem:lubotzky}.  Next, in \S \ref{section:lubotzky} we will
+prove Theorem \ref{maintheorem:lubotzky}.  In \S \ref{section:irreducible} we will prove Theorem 
+\ref{maintheorem:irreducible}, and then finally in our Appendix \S \ref{appendix:rigidity} we will
+show how to derive Theorem \ref{maintheorem:superrigidity} from Margulis's work.
+
+\paragraph{Acknowledgments.}
+I want to thank Nate Harman, who introduced me to this circle of ideas, which plays an
+important role in his beautiful paper \cite{Harman}.
+
+\section{Density}
+\label{section:rigidity}
+
+This section is devoted to proving the following lemma, which will play an important
+role in the proof of Theorem \ref{maintheorem:lubotzky}.
+
+\begin{theorem}[Density]
+\label{theorem:bigdensity}
+Let $\bk$ be a field of characteristic $0$ and let $n \geq 2$.  Endow
+$\SL_n(\bk)$ with the Zariski topology and $\tSLn$ with its usual profinite
+topology.  Then $\SL_n(\Z)$ is dense in $\SL_n(\bk) \times \tSLn$.
+\end{theorem}
+
+For the proof of Theorem \ref{theorem:bigdensity}, we will need the following.
+
+\begin{lemma}
+\label{lemma:density}
+Let $\bk$ be a field of characteristic $0$ and let $n \geq 2$.  Let $K$ be a finite-index subgroup of
+$\SL_n(\Z)$.  Then $K$ is Zariski dense in $\SL_n(\bk)$.
+\end{lemma}
+\begin{proof}
+Let $G < \SL_n(\bk)$ be the Zariski closure of $K$.  We must prove that $G = \SL_n(\bk)$.  For
+distinct $1 \leq i,j \leq n$, let $R_{ij}(\bk)$ be the root subgroup of $\SL_n(\bk)$ consisting
+of matrices obtained from the identity by inserting a single nonzero entry at position $(i,j)$.
+We thus have $R_{ij}(\bk) \cong \bk$ as additive groups.  Similarly, define the root subgroup
+$R_{ij}(\Z) \cong \Z$ of $\SL_n(\Z)$.  The intersection $R_{ij}(\bk) \cap K$ is a finite-index
+subgroup of $R_{ij}(\Z)$, and in particular is infinite.  Since a one-variable polynomial can only
+have finitely many zeros, the Zariski closure of $R_{ij}(\bk) \cap K$ must be $R_{ij}(\bk)$.  We
+deduce that $R_{ij}(\bk) \subset G$ for all distinct $1 \leq i,j \leq n$.  Since $\SL_n(\bk)$
+is generated by these root subgroups, we conclude that $G = \SL_n(\bk)$, as desired.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{theorem:bigdensity}]
+Let $G < \SL_n(\bk) \times \tSLn$ be the closure of $\SL_n(\Z)$.  We must prove that
+$G = \SL_n(\bk) \times \tSLn$.  The key to the proof is the following claim.
+
+\begin{claim}
+Let $F$ be a finite quotient of $\SL_n(\Z)$ and let
+\[\pi\colon \SL_n(\bk) \times \tSLn \rightarrow \SL_n(\bk) \times F\]
+be the projection.  Then $\pi(G) = \SL_n(\bk) \times F$.
+\end{claim}
+\begin{proof}[Proof of claim]
+Let $K \lhd \SL_n(\Z)$ be the kernel of the projection to $F$, so $\pi(K) = K \times 1$.  
+Lemma \ref{lemma:density} implies that $K$ is Zariski dense in $\SL_n(\bk)$, so we conclude that
+\begin{equation}
+\label{eqn:firstineq}
+\SL_n(\bk) \times 1 = \overline{K \times 1} \subset \pi(G).
+\end{equation}
+For all $f \in F$, we can find some element of $\SL_n(\Z)$ projecting to $f$, which implies that
+there exists some $f' \in \SL_n(\bk)$ such that $(f',f) \in \pi(G)$.  Since $(f',1) \in \pi(G)$, we
+deduce that $(1,f) \in \pi(G)$, so
+\begin{equation}
+\label{eqn:secondineq}
+1 \times F \subset \pi(G).
+\end{equation}
+Inclusions \ref{eqn:firstineq} and \ref{eqn:secondineq} imply the claim.
+\end{proof}
+
+We now turn to proving that $G = \SL_n(\bk) \times \tSLn$.  Let 
+\[\cK = \Set{$K$}{$K \lhd \SL_n(\Z)$, $[\SL_n(\Z):K] < \infty$}.\]
+The group $\tSLn$ is thus the closed subset of
+\[\prod_{K \in \cK} \SL_n(\Z)/K\]
+consisting of all $(a_K)_{K \in \cK}$ such that for all $K_1,K_2 \in \cK$ with $K_2 < K_1$, the element
+$a_{K_2} \in \SL_n(\Z)/K_2$ projects to $a_{K_1} \in \SL_n(\Z)/K_1$ under the projection
+$\SL_n(\Z)/K_2 \rightarrow \SL_n(\Z)/K_1$.  
+Consider some
+\[\lambda = (b,(a_K)_{K \in \cK}) \in \SL_n(\bk) \times \tSLn.\]
+Our goal is to show that $\lambda \in G$.  Enumerate $\cK$ as
+\[\cK = \{K_1,K_2,\ldots\}.\]
+For all $r \geq 1$, let $L = K_1 \cap \cdots \cap K_r \in \cK$.  By the above claim, we can find
+some $\lambda_r = (b,(a_K')_{K \in \cK}) \in G$ such that $a_{L}' = a_L$.  Since $L < K_i$ for
+all $1 \leq i \leq r$, it follows that $a_{K_i'} = a_{K_i}$ for all $1 \leq i \leq r$.  The
+sequence $\{\lambda_i\}_{i=1}^{\infty}$ is therefore a sequence of elements of $G$ that converges to
+$\lambda$.  Since $G$ is closed, we conclude that $\lambda \in G$, as desired.
+\end{proof}
+
+\section{Extending representations}
+\label{section:lubotzky}
+
+We now prove Theorem \ref{maintheorem:lubotzky}.
+
+\begin{proof}[Proof of Theorem \ref{maintheorem:lubotzky}]
+We start by recalling what we have to prove.  Let $\bk$ be a field of characteristic $0$ and 
+let $n \geq 3$.  Let $V$ be a finite-dimensional vector space over $\bk$ and let 
+$\rho\colon \SL_n(\Z) \rightarrow \GL(V)$ be a representation.  Our goal is to prove that 
+$\rho$ can be uniquely extended to a rational representation
+$\rho\colon \SL_n(\bk) \times \tSLn \rightarrow \GL(V)$.  Moreover, this extension should be such that
+if $W \subset V$ is a subspace that is an $\SL_n(\Z)$-subrepresentation of $V$, then $W$ is also an
+$\SL_n(\bk) \times \tSLn$-subrepresentation.
+
+The uniqueness of such an extension (if it exists) is an immediate consequence of
+Theorem \ref{theorem:bigdensity} (Density), which also implies that such an extension
+must preserve all subrepresentations.  All we must do, therefore, is construct
+our extension.  As was pointed out by Lubotzky in \cite[p. 680]{LubotzkyThesis}, the argument
+for this was originally given by Serre in the special case of $\SL_2$ (see \cite[p. 502]{SerreCongruence}), and
+the general case is exactly the same.
+
+Applying Theorem \ref{maintheorem:superrigidity} (Super-rigidity), we get a rational
+representation $f\colon \SL_n(\bk) \rightarrow \GL(V)$ and a finite-index subgroup
+$K < \SL_n(\Z)$ such that $f|_K = \rho|_K$.  Replacing $K$ by a deeper finite-index
+subgroup if necessary, we can assume that $K$ is a normal subgroup of $\SL_n(\Z)$.
+To extend $\rho$ to a rational representation of $\SL_n(\bk) \times \tSLn$, it is
+enough to construct a homomorphism $g\colon \SL_n(\Z) \rightarrow \GL(V)$
+with the following three properties:
+\begin{compactitem}
+\item[(a)] For all $x \in K$, we have $g(x) = 1$, and thus $g$ factors through the finite group
+$\SL_n(\Z)/K$ and induces a continuous representation
+$\og\colon \tSLn \rightarrow \GL(V)$.
+\item[(b)] For all $x \in \SL_n(\bk)$ and $y \in \SL_n(\Z)$, the elements $f(x)$ and $g(y)$ of $\GL(V)$ commute, so 
+$f \times \og$ is a rational representation of $\SL_n(\bk) \times \tSLn$.
+\item[(c)] For all $x \in \SL_n(\Z)$, we have $\rho(x) = f(x) g(x)$.
+\end{compactitem}
+For (c) to hold, we must define
+\[g(y) = f(y)^{-1} \rho(y) \in \GL(V) \quad \quad (y \in \SL_n(\Z)).\]
+The resulting map $g\colon \SL_n(\Z) \rightarrow \GL(V)$ is a priori only a set map, but we
+will prove that it is a homomorphism satisfying (a) and (b) above.  This will be a 3 step process.
+
+\begin{claima}
+For all $y \in \SL_n(\Z)$, the image $g(y)$ only depends on the image of $y$ in $\SL_n(\Z)/K$.
+\end{claima}
+
+Since $\rho|_K = f|_K$, we have $g(x) = 1$ for all $x \in K$.  However, since we do not yet know
+that $g$ is a homomorphism, this is not enough.  So consider some $y \in \SL_n(\Z)$ and $x \in K$.
+We must prove that $g(xy) = g(y)$.  To do this, we calculate $\rho(xy)$ in two ways:
+\[\rho(xy) = f(xy) g(xy)
+= f(x) f(y) g(xy)\]
+and
+\[\rho(xy) = \rho(x) \rho(y)
+= f(x) g(x) f(y) g(y)
+= f(x) f(y) g(y).\]
+Comparing these, we see that $g(xy) = g(y)$, as desired.
+
+\begin{claima}
+Condition (b) holds: for all $x \in \SL_n(\bk)$ and $y \in \SL_n(\Z)$, the elements $f(x)$ and $g(y)$ of $\GL(V)$ commute.
+\end{claima}
+
+Fixing some $y \in \SL_n(\Z)$, the set $\Lambda$ of elements of $\GL(V)$ that commute with $g(y)$ is Zariski closed.
+We will prove that $f(\SL_n(\bk)) \subset \Lambda$.  Lemma \ref{lemma:density} implies that 
+the finite-index subgroup $K < \SL_n(\Z)$
+is Zariski dense in $\SL_n(\bk)$, so it is enough to prove that for all $x \in K$ we have $f(x) \in \Lambda$, i.e.\ that
+$f(x)$ and $g(y)$ commute.  To do this, we calculate $\rho(yx)$ in two ways:
+\[\rho(yx) = f(yx) g(yx)
+= f(y) f(x) g(y),\]
+where the second equality uses previously proven fact that $g(yx) = g(y)$, and
+\[\rho(yx) = \rho(y) \rho(x)
+= f(y) g(y) f(x) g(x) 
+= f(y) g(y) f(x),\]
+where the third equality uses the fact that $g(x) = 1$ since $x \in K$.  Comparing these, we see that
+$f(x) g(y) = g(y) f(x)$, as desired.
+
+\begin{claima}
+The map $g$ is a homomorphism, and thus by the first claim (a) holds.
+\end{claima}
+
+For $y,y' \in \SL_n(\Z)$, we can apply the previous claim to see that
+\[\rho(y y') = \rho(y) \rho(y')
+= f(y) g(y) f(y') g(y')
+= f(y) f(y') g(y) g(y').\]
+Since
+\[\rho(y y') = f(y y') g(y y') = f(y) f(y') g(y y'),\]
+we conclude that $g(y y') = g(y) g(y')$, as desired.
+\end{proof}
+
+\section{Classifying the irreducible representations}
+\label{section:irreducible}
+
+We now prove Theorem \ref{maintheorem:irreducible}.
+
+\begin{proof}[Proof of Theorem \ref{maintheorem:irreducible}]
+We start by recalling what we must prove.  Let $\bk$ be an algebraically closed field of characteristic $0$ and let 
+$n \geq 2$.  Consider a rational representation $U$ of $\SL_n(\bk) \times \tSLn$.  Since $U$ is a continuous
+representation of the profinite completion $\tSLn$, the action of $\tSLn$ on $U$ factors through the action of
+a finite group $F$.  We must prove that $U$ is
+irreducible if and only if $U \cong V \otimes W$, where $V$ and $W$ are as follows:
+\begin{compactitem}
+\item $V$ is an irreducible finite-dimensional rational representation of $\SL_n(\bk)$.
+\item $W$ is an irreducible finite-dimensional representation of $F$.
+\end{compactitem}
+We prove the two directions of this result separately.
+
+\begin{claim}
+Assume that $U \cong V \otimes W$, where $V$ and $W$ are as above.  Then $U$ is irreducible.
+\end{claim}
+
+In fact, for this claim it is not important that $V$ is a rational representation of $\SL_n(\bk)$, only
+that it is irreducible.  By assumption, $V$ and $W$ are simple modules over the group rings
+$\bk[\SL_n(\bk)]$ and $\bk[F]$, respectively.  We remark that by $\bk[\SL_n(\bk)]$ we mean simply
+the ordinary group ring, not the ring of regular functions on the affine variety $\SL_n(\bk)$.  
+Since $\bk$ is algebraically closed, we can apply the Jacobson Density Theorem (see \cite[Theorem 3.2.2]{EtingofBook} or \cite{PutmanDensity})
+and see that the resulting ring maps
+$\phi\colon \bk[\SL_n(\bk)] \rightarrow \End(V)$ and $\psi\colon \bk[F] \rightarrow \End(W)$ are surjections.
+It follows that the ring map
+\[\bk[\SL_n(\bk) \times F] \cong \bk[\SL_n(\bk)] \otimes \bk[F] \stackrel{\phi \otimes \psi}{\longrightarrow} \End(V) \otimes \End(W) \cong \End(V \otimes W)\]
+is a surjection and thus that $V \otimes W$ is a simple $\bk[\SL_n(\bk) \times F]$-module, as desired.
+
+\begin{claim}
+Assume that $U$ is irreducible.  Then $U \cong V \otimes W$, where $V$ and $W$ are as above.
+\end{claim}
+
+First regard $U$ as a representation of $F$.  Since $F$ is finite, $U$ decomposes as a direct sum
+of isotypic components.  Since the action of $\SL_n(\bk)$ on $U$ commutes with the action of $F$, it
+must preserve these isotypic components.  Since $U$ was assumed to be irreducible, it follows
+that $U$ must have a single $F$-isotypic component, i.e.\ that $U \cong W^{\oplus m}$ for some
+irreducible $F$-representation $W$ and some $m \geq 0$.  Consider the map
+\[\Psi\colon \Hom_F(W,U) \otimes W \rightarrow U\]
+defined via the formula $\Psi(\rho \otimes \vec{w}) = \rho(\vec{w})$.  Since $U \cong W^{\oplus m}$, this
+map is surjective.  Also, since $\bk$ is algebraically closed we can apply Schur's Lemma to see
+that 
+\[\Hom_F(W,U) = \Hom_F(W,W^{\oplus m}) \cong \bk^m.\]
+We deduce that $\Psi$ is a surjective map between vector spaces of the same dimension, so $\Psi$ is an isomorphism.
+
+The commuting actions of $\SL_n(\bk)$ and $F$ on $U$ thus can be transported via $\Psi$ to give commuting
+actions of $\SL_n(\bk)$ and $F$ on $\Hom_F(W,U) \otimes W$.  These actions are easily understood:
+\begin{compactitem}
+\item The group $F$ acts trivially on $\Hom_F(W,U)$ and acts on $W$ as the given representation.  Indeed, for
+$f \in F$ and $\rho \in \Hom_F(W,U)$ and $\vec{w} \in W$ we have
+\[f \cdot \Psi(\rho \otimes \vec{w}) = f \cdot \rho(\vec{w}) = \rho(f \cdot \vec{w}) = \Psi(\rho \otimes f \cdot \vec{w}).\]
+\item The group $\SL_n(\bk)$ acts on $\Hom_F(W,U)$ by postcomposition (via its action on $U$) and acts trivially on
+$W$.  Indeed, for $x \in \SL_n(\bk)$ and $\rho \in \Hom_F(W,U)$ and $\vec{w} \in W$ we have
+\[x \cdot \Psi(\rho \otimes \vec{w}) = x \cdot \rho(\vec{w}) = (x \cdot \rho)(\vec{w}) = \Psi(x \cdot \rho \otimes \vec{w}).\]
+\end{compactitem}
+Since $U$ was assumed to be irreducible, it follows that $V:=\Hom_F(W,U)$ must be an irreducible
+$\SL_n(\bk)$-module.  What is more, since $U$ was assumed to be a rational $\SL_n(\bk)$-representation and
+$V$ can be realized as an $\SL_n(\bk)$-subrepresentation of $U$ (namely, for any nonzero $\vec{w} \in W$ as
+the subspace $\Psi(U \times \vec{w})$), it follows that $V$ is a rational representation of
+$\SL_n(\bk)$.  The decomposition $U \cong V \otimes W$ is precisely the one we claimed must exist.
+\end{proof}
+
+\appendix
+
+\section{Appendix: On super-rigidity}
+\label{appendix:rigidity}
+
+In this section, we will show how to derive Theorem \ref{maintheorem:superrigidity} (Super-rigidity) from
+a version of Margulis's super-rigidity theorem.  The special case of Margulis's theorem we will start with
+will be as follows:
+
+\begin{theorem}[{\cite[Theorem 16.1.1]{WitteBook}}]
+\label{theorem:margulis1}
+For some $n \geq 3$, let $\rho\colon \SL_n(\Z) \rightarrow \GL_m(\R)$ be any homomorphism.  Then there exists a continuous
+homomorphism $f\colon \SL_n(\R) \rightarrow \GL_m(\R)$ and a finite-index subgroup $K<\SL_n(\Z)$
+such that $f|_K = \rho|_K$.
+\end{theorem}
+
+\begin{remark}
+In the above reference, one can in fact replace $\SL_n(\Z)$ with any non-uniform lattice in $\SL_n(\R)$.
+There are more general versions of Margulis's theorem for any irreducible lattice in a higher rank Lie group,
+but they are far more complicated to state.
+\end{remark}
+
+There are two differences between Theorem \ref{theorem:margulis1} and Theorem \ref{maintheorem:superrigidity}:
+\begin{compactitem}
+\item Theorem \ref{maintheorem:superrigidity} concerns arbitrary fields $\bk$ of characteristic $0$, not just $\R$.
+\item In Theorem \ref{maintheorem:superrigidity}, the extended homomorphism 
+$f\colon \SL_n(\bk) \rightarrow \GL_m(\bk)$ is a rational representation of the
+algebraic group $\SL_n(\bk)$, while in Theorem \ref{theorem:margulis1} the homomorphism
+$f\colon \SL_n(\R) \rightarrow \GL_m(\R)$ is just continuous.
+\end{compactitem}
+We will deal with the second issue first.  The first step is to upgrade $f$ to a
+Lie group homomorphism, i.e.\ a homomorphism that is everywhere smooth:
+
+\begin{theorem}
+\label{theorem:autosmooth}
+Let $f\colon G \rightarrow H$ be a continuous homomorphism between real Lie groups.  Then
+$f$ is smooth.
+\end{theorem}
+\begin{proof}
+This is a nontrivial but standard fact about Lie groups, so we will omit the proof.
+See \cite[Proposition 2.4.6]{TaoBook} for an accessible account of it.
+\end{proof}
+
+We next upgrade $f$ to a rational representation.  Before we explain how to do this,
+we review some cautionary examples.
+
+\begin{example}
+\label{example:nonalgebraic}
+Here are some examples of nonalgebraic Lie group homomorphisms between $\R$-algebraic groups:
+\begin{compactitem}
+\item The homomorphism $f\colon \GL_n(\R) \rightarrow \R^{\times}$ defined via the formula
+$f(x) = \det(x)^{\sqrt{2}}$.  This kind of phenomenon indicates that it is important to restrict
+one's self to perfect groups.
+\item Issues can still occur for perfect (or even semisimple) groups.  For example, consider
+the adjoint representation of $\SL_3(\R)$ obtained via the derivative of the conjugation action:
+\[\ad\colon \SL_3(\R) \longrightarrow \GL(\fsl_3(\R)) \cong \GL_8(\R).\]
+The kernel of $\ad$ is the center of $\SL_3(\R)$, which is trivial.  It follows that $\ad$ is an isomorphism
+onto its image, which is a closed subgroup $G$ of $\GL_8(\R)$.  The inverse
+\[\ad^{-1}\colon G \longrightarrow \SL_3(\R)\]
+is certainly smooth; however, it is not algebraic since if it was, then we could extend scalars
+to $\C$ and deduce that the complexified adjoint representation
+\[\ad_{\C}\colon \SL_3(\C) \longrightarrow \GL(\fsl_3(\C)) \cong \GL_8(\C)\]
+is an isomorphism, which is false since $\SL_3(\C)$ has a nontrivial center (of order $3$).  See
+\cite{LeeWu} for a discussion of this kind of phenomenon.\qedhere
+\end{compactitem}
+\end{example}
+
+Despite these examples, the following result still holds.
+
+\begin{lemma}
+\label{lemma:continuousrational}
+Every Lie group homomorphism $f\colon \SL_n(\R) \rightarrow \GL_m(\R)$ is
+$\R$-algebraic.  Similarly, every complex Lie group homomorphism
+$F\colon \SL_n(\C) \rightarrow \GL_m(\C)$ is $\C$-algebraic.
+\end{lemma}
+\begin{proof}
+We start by reducing to the complex case.  The derivative of a real Lie group
+homomorphism $f\colon \SL_n(\R) \rightarrow \GL_m(\R)$ at the identity is a map 
+$\fsl_n(\R) \rightarrow \fgl_m(\R)$ of real Lie algebras.
+Since $\fsl_n(\R) \otimes \C \cong \fsl_n(\C)$ and $\fgl_m(\R) \otimes \C = \fgl_m(\C)$, we can tensor
+this map with $\C$ and get a map $\fsl_n(\C) \rightarrow \fgl_m(\C)$ of complex Lie algebras.  This is the derivative
+at the identify of a homomorphism $F\colon \SL_n(\C) \rightarrow \GL_m(\C)$ of complex Lie groups that fits
+into a commutative diagram
+\[\xymatrix{
+\SL_n(\R) \ar[r]^{f} \ar@{^{(}->}[d] & \GL_m(\R) \ar@{^{(}->}[d] \\
+\SL_n(\C) \ar[r]^{F} & \GL_m(\C).}\]
+To prove that $f$ is a $\R$-algebraic homomorphism, it is enough to prove that $F$ is a $\C$-algebraic homomorphism.
+
+It remains to prove that every complex Lie group homomorphism $F\colon \SL_n(\C) \rightarrow \GL_m(\C)$ is $\C$-algebraic.  Let
+\[\Lambda = \Set{$(x,F(x))$}{$x \in \SL_n(\C)$} \subset \SL_n(\C) \times \GL_m(\C)\]
+be the graph of $F$.  There are thus two projections
+\[\pi_1\colon \Lambda \stackrel{\cong}{\longrightarrow} \SL_n(\C) \quad \text{and} \quad \pi_2\colon \Lambda \longrightarrow \GL_m(\C),\]
+and $F$ factors as
+\begin{equation}
+\label{eqn:factor}
+\SL_n(\C) \stackrel{\pi_1^{-1}}{\longrightarrow} \Lambda \stackrel{\pi_2}{\longrightarrow} \GL_m(\C).
+\end{equation}
+The Lie algebra of the subgroup $\Lambda$ of the $\C$-algebraic group $\SL_n(\C) \times \GL_m(\C)$ is isomorphic
+to $\fsl_n(\C)$.  Not all connected Lie subgroups of $\C$-algebraic groups are
+algebraic subgroups, and the Lie algebras of the ones that are are called
+{\em algebraic Lie algebras}.
+A basic result about algebraic groups is that over an algebraically closed field
+of characteristic $0$ like $\C$,
+all perfect Lie subalgebras are algebraic (see
+\cite[Corollary 7.9]{BorelBook}).  Since $\fsl_n(\C)$ is perfect, we conclude that
+$\Lambda$ is a $\C$-algebraic subgroup of $\SL_n(\C) \times \GL_m(\C)$.
+
+The projection
+$\pi_1\colon \Lambda \rightarrow \SL_n(\C)$ is a bijective algebraic map between algebraic groups.  Bijective
+maps between algebraic varieties need not be isomorphisms; however, they are if the target is smooth (or even normal)
+and the varieties are defined over an algebraically closed field of characteristic $0$ (see
+\cite{StarrMathOverflow}; the key tool here is Zariski's Main Theorem).  Since algebraic groups
+are automatically smooth, we conclude that $\pi_1$ is an isomorphism of algebraic varieties.  Its inverse $\pi_1^{-1}$
+is thus algebraic.  Since the projection $\pi_2$ is also algebraic, we conclude from \eqref{eqn:factor} that
+$F$ is an algebraic map.
+\end{proof}
+
+We now prove the complex case of Theorem \ref{maintheorem:superrigidity}:
+
+\begin{theorem}
+\label{theorem:margulis2}
+For some $n \geq 3$, let $\rho\colon \SL_n(\Z) \rightarrow \GL_m(\C)$ be any homomorphism.  Then there exists a rational representation 
+$f\colon \SL_n(\C) \rightarrow \GL_m(\C)$ and a finite-index subgroup $K<\SL_n(\Z)$
+such that $f|_K = \rho|_K$.
+\end{theorem}
+
+\begin{proof}[Proof of Theorem \ref{theorem:margulis2}]
+Forgetting its complex structure, the group $\GL_m(\C)$ is a Zariski closed subgroup
+of the $\R$-algebraic group $\GL_{2m}(\R)$.  Applying Theorem \ref{theorem:margulis1}
+to the composition of $\rho\colon \SL_n(\Z) \rightarrow \GL_m(\C)$ with the
+inclusion $\GL_m(\C) \hookrightarrow \GL_{2m}(\R)$, we get a continuous homomorphism
+$f\colon \SL_n(\R) \rightarrow \GL_{2m}(\R)$ and a finite-index subgroup
+$K<\SL_n(\Z)$ such that $f|_{K} = \rho|_{K}$.  Combining Theorem \ref{theorem:autosmooth}
+and Lemma \ref{lemma:continuousrational}, we see that $f$ is a rational representation
+of $\SL_n(\R)$.  Lemma \ref{lemma:density} says that $K$ is Zariski dense
+in $\SL_n(\R)$, so since $\rho(K)$ is contained in the $\R$-algebraic subgroup
+$\GL_m(\C)$ of $\GL_{2m}(\R)$, we see that the image of $f$ lies in
+$\GL_m(\C)$, so we can regard $f$ as a $\R$-algebraic homomorphism
+$f\colon \SL_n(\R) \rightarrow \GL_m(\C)$.  The derivative of $f$ at the identity is an
+$\R$-linear Lie algebra homomorphism $\fsl_n(\R) \rightarrow \fgl_m(\C)$.  We can factor
+this Lie algebra homomorphism through a $\C$-linear Lie algebra homomorphism
+\[\fsl_n(\C) = \fsl_n(\R) \otimes \C  \rightarrow \fgl_m(\C),\]
+which is the derivative at the identity of a map $F\colon \SL_n(\C) \rightarrow \GL_m(\C)$
+of complex Lie algebras that fits into a commutative diagram
+\[\xymatrix{
+\SL_n(\R) \ar[r]^{f} \ar@{^{(}->}[d] & \GL_m(\C). \\
+\SL_n(\C) \ar[ru]^{F} & }\]
+Another application of Lemma \ref{lemma:continuousrational} shows that
+$F\colon \SL_n(\C) \rightarrow \GL_m(\C)$ is a rational representation, and
+$F|_K = f|_K = \rho|_K$, as desired.
+\end{proof}
+
+Before we prove our main result, we need one final lemma showing how to recognize
+the field of definition of a rational representation.
+
+\begin{lemma}
+\label{lemma:fieldofdef}
+Let $f\colon \SL_n(\C) \rightarrow \GL_m(\C)$ be a rational representation, let
+$K < \SL_n(\Z)$ be a finite-index subgroup, and let
+$\bk$ be a subfield of $\C$ such that $f(K) \subset \GL_m(\bk)$.  Then
+$f$ is defined over $\bk$, and thus restricts to a rational representation
+$\SL_n(\bk) \rightarrow \GL_m(\bk)$.
+\end{lemma}
+\begin{proof}
+Let $\C[\SL_n]$ be the $\C$-algebra of regular functions $\SL_n(\C) \rightarrow \C$ and
+let $\bk[\SL_n]$ be the $\bk$-algebra of such regular functions that are
+defined over $\bk$, i.e.\ by polynomials in the entries of $\SL_n(\C)$ with
+coefficients in $\bk$.  Since $\SL_n$ is an algebraic group defined over $\Q$, we have
+\begin{equation}
+\label{eqn:tensorup}
+\C[\SL_n] = \bk[\SL_n] \otimes_{\bk} \C.
+\end{equation}
+Letting $h \in \C[\SL_n]$ be one of the matrix coefficients of $f$, our goal
+is to show that $h \in \bk[\SL_n]$.
+
+Since $\C$ is an algebraically closed field of characteristic $0$, the field
+$\bk$ is precisely the set of elements of $\C$ that are invariant under all elements
+of $\Aut(\C/\bk)$.  Combining this with \eqref{eqn:tensorup}, we see
+that $\bk[\SL_n]$ is the set of all elements of $\C[\SL_n]$ that
+are invariant under all elements of $\Aut(\C/\bk)$.  Considering some
+$\lambda \in \Aut(\C/\bk)$, we see that our goal is equivalent to showing
+that $\lambda \circ h = h$.
+
+By assumption, $\lambda \circ h$ and $h$ agree on all elements of $K$.
+Lemma \ref{lemma:density} implies that $K$ is Zariski dense in $\SL_n(\C)$,
+so this implies that in fact $\lambda \circ h = h$, as desired.
+\end{proof}
+
+We finally prove Theorem \ref{maintheorem:superrigidity}.
+
+\begin{proof}[Proof of Theorem \ref{maintheorem:superrigidity}]
+We start by recalling what we must prove.
+Let $\bk$ be a field of characteristic $0$ and let $n \geq 3$.
+For some $m$, let $\rho\colon \SL_n(\Z) \rightarrow \GL_m(\bk)$
+be a representation.  We must prove that there exists a rational representation 
+$f\colon \SL_n(\bk) \rightarrow \GL_m(\bk)$ of
+the algebraic group $\SL_n(\bk)$ and a finite-index subgroup $K$ of $\SL_n(\Z)$ such that $f|_K = \rho|_K$.
+
+Since $\SL_n(\Z)$ is a finitely generated group, there exists a subfield $\bk'$ of $\bk$ with
+the following two properties:
+\begin{compactitem}
+\item[(a)] For all $x \in \SL_n(\Z)$, the matrix entries of $\rho(x)$ lie in $\bk'$.
+\item[(b)] The field $\bk'$ is a finitely generated $\Q$-algebra.
+\end{compactitem}
+By (a), there exists a homomorphism $\rho'\colon \SL_n(\Z) \rightarrow \GL_m(\bk')$ such
+that $\rho$ factors as
+\[\SL_n(\Z) \stackrel{\rho'}{\longrightarrow} \GL_m(\bk') \hookrightarrow \GL_m(\bk).\]
+Since $\bk'$ is a finitely generated $\Q$-algebra, it is isomorphic to a subfield of
+$\C$.  Identifying $\bk'$ with this subfield of $\C$ allows us to identify the image
+of $\rho'$ with a subfield of $\C$.  We can thus apply Theorem \ref{theorem:margulis2}
+and obtain a rational representation $f'\colon \SL_n(\C) \rightarrow \GL_m(\C)$ and
+a finite-index subgroup $K<\SL_n(\Z)$ such that $f'|_{K} = \rho'|_{K}$.  Since
+\[f'(K) = \rho'(K) \subset \GL_m(\bk') \subset \GL_m(\C),\]
+we can apply Lemma \ref{lemma:fieldofdef} to deduce that $f'$ is defined over
+$\bk'$, and thus restricts to a rational representation 
+$f''\colon \SL_n(\bk') \rightarrow \GL_m(\bk')$.  Extending scalars from $\bk'$
+to $\bk$, we obtain a rational representation $f\colon \SL_n(\bk) \rightarrow \GL_m(\bk)$
+such that 
+\[f|_K = f'|_K = \rho'|_K = \rho|_K,\]
+as desired.
+\end{proof}
+
+\begin{thebibliography}{CF}
+\begin{footnotesize}
+\setlength{\itemsep}{-1mm}
+
+\bibitem{BassLazardSerre}
+H. Bass, M. Lazard\ and\ J.-P. Serre, Sous-groupes d'indice fini dans ${\bf SL}(n,\,{\bf Z})$, Bull. Amer. Math. Soc. 70 (1964), 385--392.
+
+\bibitem{BassLubotzky}
+H. Bass\ et al., The proalgebraic completion of rigid groups, Geom. Dedicata 95 (2002), 19--58.
+
+\bibitem{BassMilnorSerre}
+H. Bass, J. Milnor\ and\ J.-P. Serre, Solution of the congruence subgroup problem for ${\rm SL}\sb{n}\,(n\geq 3)$ and ${\rm Sp}\sb{2n}\,(n\geq 2)$, Inst. Hautes \'{E}tudes Sci. Publ. Math. No. 33 (1967), 59--137. 
+
+\bibitem{BorelBook}
+A. Borel, {\it Linear algebraic groups}, second edition, Graduate Texts in Mathematics, 126, Springer-Verlag, New York, 1991. 
+
+\bibitem{EtingofBook}
+P. Etingof\ et al., {\it Introduction to representation theory}, Student Mathematical Library, 59, American Mathematical Society, Providence, RI, 2011.
+
+\bibitem{Harman}
+N. Harman, Effective and infinite-rank superrigidity in the context of representation stability, preprint 2019.
+
+\bibitem{HumphreysBook}
+J. E. Humphreys, {\it Linear algebraic groups}, Springer-Verlag, New York, 1975.
+
+\bibitem{LeeWu}
+D. H. Lee\ and\ T. S. Wu, Rationality of representations of linear Lie groups, Proc. Amer. Math. Soc. 114 (1992), no.~3, 847--855. 
+
+\bibitem{LubotzkyThesis}
+A. Lubotzky, Tannaka duality for discrete groups, Amer. J. Math. 102 (1980), no.~4, 663--689. 
+
+\bibitem{MargulisBook}
+G. A. Margulis, {\it Discrete subgroups of semisimple Lie groups}, Ergebnisse der Mathematik und ihrer Grenzgebiete (3), 17, Springer-Verlag, Berlin, 1991.
+
+\bibitem{Mennicke}
+J. L. Mennicke, Finite factor groups of the unimodular group, Ann. of Math. (2) 81 (1965), 31--37.
+
+\bibitem{PutmanDensity}
+A. Putman, The Jacobson density theorem, informal note.
+
+\bibitem{WitteBook}
+D. W. Morris, {\it Introduction to arithmetic groups}, Deductive Press, 2015.
+
+\bibitem{Ragunathan}
+M. S. Raghunathan, On the congruence subgroup problem, Inst. Hautes \'{E}tudes Sci. Publ. Math. No. 46 (1976), 107--161. 
+
+\bibitem{SerreCongruence}
+J.-P. Serre, Le probl\`eme des groupes de congruence pour $\SL_2$, Ann. of Math. (2) 92 (1970), 489--527.
+
+\bibitem{StarrMathOverflow}
+Jason Starr (https://mathoverflow.net/users/13265/jason-starr), Bijection implies isomorphism for algebraic varieties, URL (version: 2017-03-09): https://mathoverflow.net/q/264216
+
+\bibitem{Steinberg}
+R. Steinberg, Some consequences of the elementary relations in ${\rm SL}_n$, in {\it Finite groups---coming of age (Montreal, Que., 1982)}, 335--350, Contemp. Math., 45, Amer. Math. Soc., Providence, RI.
+
+\bibitem{TaoBook}
+T. Tao, {\it Hilbert's fifth problem and related topics}, Graduate Studies in Mathematics, 153, American Mathematical Society, Providence, RI, 2014.
+
+\end{footnotesize}
+\end{thebibliography} 
+
+\begin{footnotesize}
+\noindent
+\begin{tabular*}{\linewidth}[t]{@{}p{\widthof{Department of Mathematics}+0.5in}@{}p{\linewidth - \widthof{Department of Mathematics} - 0.5in}@{}}
+{\raggedright
+Andrew Putman\\
+Department of Mathematics\\
+University of Notre Dame \\
+164 Hurley Hall\\
+Notre Dame, IN 46556\\
+{\tt andyp@nd.edu}}
+&
+\end{tabular*}\hfill
+\end{footnotesize}
+
+\end{document}

@@ -1,0 +1,295 @@
+\documentclass[11pt]{article}
+
+\title{\vspace{-50pt}Burnside's $p^a q^b$-theorem}
+\author{Andrew Putman\vspace{-6pt}}
+\date{}
+
+\usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
+\usepackage{mathtools}
+\usepackage{epsfig,pinlabel,paralist}
+\usepackage[vmargin=1in, hmargin=1.25in]{geometry}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{type1cm}
+\usepackage{calc}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage[all,cmtip]{xy}
+\usepackage{eucal}
+\usepackage{paralist}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{etoolbox}
+
+\usepackage[bookmarks, bookmarksdepth=2, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+\apptocmd{\thebibliography}{\raggedright}{}{}
+
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{rochlin}{Rochlin's Theorem}
+\newtheorem*{rochlin2}{Rochlin's Theorem'}
+\newtheorem{maintheorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{unnumberedlemma}{Lemma}
+\newtheorem{sublemma}[theorem]{Sublemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem*{claim}{Claim}
+\newtheorem{claims}{Claim}
+\newtheorem{stepa}{Step}
+\newtheorem{stepb}{Step}
+\newtheorem{stepc}{Step}
+\newtheorem{case}{Case}
+\newtheorem{subcase}{Subcase}
+\renewcommand{\themaintheorem}{\Alph{maintheorem}}
+\newcommand\BeginClaims{\setcounter{claims}{0}}
+\newcommand\BeginCases{\setcounter{case}{0}}
+\newcommand\BeginSubcases{\setcounter{subcase}{0}}
+
+\theoremstyle{definition}
+\newtheorem*{example}{Example}
+\newtheorem{assumption}{Assumption}
+\newtheorem{defn}[theorem]{Definition}
+\newenvironment{definition}[1][]{\begin{defn}[#1]\pushQED{\qed}}{\popQED \end{defn}}
+\newtheorem{notation}[theorem]{Notation}
+
+\newtheorem*{remark}{Remark}
+
+% Sets of Functions
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Iso}{Iso}
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Homeo}{Homeo}
+\DeclareMathOperator{\Ker}{ker}
+\DeclareMathOperator{\Coker}{coker}
+\DeclareMathOperator{\Image}{Im}
+
+% My Favorite Groups
+\DeclareMathOperator{\Mod}{Mod}
+\DeclareMathOperator{\MCG}{MCG}
+\newcommand\Torelli{\ensuremath{{\mathcal I}}}
+\DeclareMathOperator{\IA}{IA}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\U}{U}
+\DeclareMathOperator{\SU}{SU}
+\newcommand\SLLie{\ensuremath{\mathfrak{sl}}}
+\newcommand\SpLie{\ensuremath{\mathfrak{sp}}}
+\newcommand\GLLie{\ensuremath{\mathfrak{gl}}}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\End}{End}
+
+% Important Spaces
+\newcommand\HBolic{\ensuremath{\mathbb{H}}}
+\newcommand\Teich{\ensuremath{{\mathcal T}}}
+\newcommand\CNosep{\ensuremath{\mathcal{CNS}}}
+\newcommand\Sphere[1]{\ensuremath{\mathbf{S}^{#1}}}
+\newcommand\Ball[1]{\ensuremath{\mathbf{B}^{#1}}}
+\newcommand\Proj{\ensuremath{\mathbb{P}}}
+
+% Number Systems
+\newcommand\R{\ensuremath{\mathbb{R}}}
+\newcommand\C{\ensuremath{\mathbb{C}}}
+\newcommand\Z{\ensuremath{\mathbb{Z}}}
+\newcommand\Q{\ensuremath{\mathbb{Q}}}
+\newcommand\N{\ensuremath{\mathbb{N}}}
+\newcommand\Field{\ensuremath{\mathbb{F}}}
+\DeclareMathOperator{\Char}{char}
+
+% (Co-)Homology
+\DeclareMathOperator{\HH}{H}
+\newcommand\RH{\ensuremath{\widetilde{\HH}}}
+\newcommand\Chain{\ensuremath{{\rm C}}}
+
+% Misc
+\DeclareMathOperator{\Max}{max}
+\DeclareMathOperator{\Min}{min}
+\DeclareMathOperator{\Th}{th}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Out}{Out}
+\DeclareMathOperator{\Interior}{Int}
+\newcommand\Span[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand\CaptionSpace{\hspace{0.2in}}
+\DeclareMathOperator{\Dim}{dim}
+
+% Figures
+\newcommand\Figure[4]{
+\begin{figure}[t]
+\centering
+\centerline{\psfig{file=#2,scale=#4}}
+\caption{#3}
+\label{#1}
+\end{figure}}
+
+% Document specific macros go here
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\cl}{cl}
+\newcommand\bk{\ensuremath{\mathbf{k}}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We prove Burnside's theorem saying that a group of order $p^a q^b$ for primes $p$ and $q$ is solvable.
+\end{abstract}
+
+In this note, we discuss the proof of the following theorem of Burnside \cite{Burnside}.
+
+\begin{maintheorem}
+\label{theorem:burnside}
+Let $G$ be a group with $|G| = p^a q^b$ for primes $p$ and $q$.  Then $G$ is solvable.
+\end{maintheorem}
+
+\noindent
+The key to the proof is showing that such a group must contain a nontrivial normal subgroup.
+The subgroups we will construct will be of the following form.  All representations in
+this note are finite-dimensional and defined over $\C$.
+
+\begin{definition}
+Let $V$ be a representation of a group $G$.  The {\em $V$-central subgroup} of $G$, denoted
+$Z(V)$, is the subgroup consisting of all $g \in G$ that act on $V$ by homotheties, i.e.\ such that
+there exists some $\lambda \in \C$ such that $g \cdot \vec{v} = \lambda \vec{v}$ for all
+$\vec{v} \in V$.
+\end{definition}
+
+\begin{remark}
+It is clear that $Z(V)$ is a normal subgroup of $G$; indeed, for $g \in Z(V)$ and $\lambda$ as above, for
+all $h \in G$ we have
+\[h^{-1} g h \cdot \vec{v} = h^{-1} \cdot (\lambda (h \cdot \vec{v})) = \lambda (h^{-1} h) \cdot \vec{v} = \lambda \vec{v} \quad \quad \text{for all $\vec{v} \in V$}.\]
+so $h^{-1} g h \in Z(G)$.
+\end{remark}
+
+How can we detect nontrivial $Z(V)$?  With respect to an appropriate basis, the matrices
+representing the action of elements of $G$ on $V$ are algebraic integers (see, e.g., 
+\cite{PutmanAlg}).  It follows that for
+$g \in Z(V)$, the action of $g$ on $V$ is a homothety with scaling factor an algebraic integer.  Letting
+$\chi$ be the character of $V$, this scaling factor is precisely $\chi(g)/n$, where $n = \dim(V)$.  This must
+therefore be an algebraic integer.  The following lemma is a converse to this:
+
+\begin{lemma}
+\label{lemma:detectcentral}
+Let $G$ be a finite group and let $V$ be an $n$-dimensional representation of $G$ with character $\chi$.  For
+some $g \in G$, assume that $\chi(g)/n$ is a nonzero algebraic integer.  Then $g \in Z(V)$.
+\end{lemma}
+\begin{proof}
+Let $\lambda_1,\ldots,\lambda_n \in \C$ be the eigenvalues of the action of $g$ on $V$.  Our goal is to
+prove that the $\lambda_i$ are all equal.  Assume otherwise.  Each of the $\lambda_i$ is a root of unity,
+so this implies that
+\[|\chi(g)| = |\lambda_1+\cdots+\lambda_n| < n.\]
+This can be improved as follows.  Let $\bk/\Q$ be a Galois extension containing each of the $\lambda_i$.  For
+each $\phi \in \Gal(\bk/\Q)$, the elements $\phi(\lambda_1),\ldots,\phi(\lambda_n) \in \C$ are also roots
+of unity that are not all equal, so we have
+\[|\phi(\chi(g))| = |\phi(\lambda_1)+\cdots+\phi(\lambda_n)| < n.\]
+We thus see that
+\[\prod_{\phi \in \Gal(\bk/\Q)} |\phi\left(\frac{\chi(g)}{n}\right)| < 1.\]
+Since $\chi(g)/n$ is a nonzero algebraic integer contained in $\bk$, the left hand side lies in $\Z$, and
+thus must be $0$, a contradiction.
+\end{proof}
+
+The following technical lemma will help us verify the hypotheses of Lemma \ref{lemma:detectcentral}.  For
+$g \in G$, let $\cl(g)$ denote the conjugacy class of $g$.
+
+\begin{lemma}
+\label{lemma:conjugacymult}
+Let $G$ be a finite group and let $V$ be an $n$-dimensional irreducible representation of $G$ with
+character $\chi$.  For all $g \in G$, the number $|\cl(g)| \chi(g)/n$ is an algebraic integer.
+\end{lemma}
+\begin{proof}
+Fix some $g \in G$, and define
+\[\omega = \sum_{h \in \cl(g)} h \in \C[G].\]
+The element $\omega$ lies in the center of the ring $\C[G]$, so it acts on $V$ by $\C[G]$-module endomorphisms.
+Since $V$ is irreducible, Schur's Lemma says that $\End_{\C[G]}(V) = \C$, so there exists some
+$\lambda \in \C$ such that $\omega \cdot \vec{v} = \lambda \vec{v}$ for all $\vec{v} \in V$.  Taking traces,
+we see that
+\[n \lambda = \chi(\omega) = \sum_{h \in \cl(g)} \chi(h) = |\cl(g)| \chi(g),\]
+so
+\[\lambda = |\cl(g)| \chi(g)/n.\]
+With respect to an appropriate basis, the entries of the matrices representing the action of $G$ on $V$ are
+algebraic integers (see, e.g., \cite{PutmanAlg}).  It follows that $\lambda$ is an algebraic integer, and the lemma follows.
+\end{proof}
+
+We will use these results to prove the following key proposition:
+
+\begin{proposition}
+\label{proposition:findcentral}
+Let $G$ be a finite group such that there exists some $g \in G$ with $|\cl(g)| = p^k$ for some prime $p$ and
+some $k \geq 1$.  Then there exists some nontrivial representation $V$ of $G$ such that $Z(V) \neq 1$.
+\end{proposition}
+\begin{proof}
+Let $V_1,\ldots,V_r$ be the irreducible representations of $G$, ordered such that $V_1$ is the trivial
+representation.  For $1 \leq i \leq r$, let $\chi_i$ be the character of $V_i$ and $n_i = \dim(V_i)$.
+Since $|\cl(g)| \neq 1$, we have $g \neq 1$, so the orthogonality of the columns of the character table says
+that
+\[0 = \sum_{i=1}^r \chi_i(g) \overline{\chi_i(1)} = \sum_{i=1}^r n_i \chi_i(g) = 1 + \sum_{i=2}^r n_i \chi_i(g).\]
+Thus
+\[\frac{-1}{p} = \sum_{i=2}^r \frac{n_i \chi_i(g)}{p}.\]
+From this, we see that there must exist some $2 \leq j \leq r$ such that $n_j \chi_j(g)/p$ is not
+an algebraic integer.  Since $\chi_j(g)$ is a sum of roots of unity, it is an algebraic integer.  We
+deduce that $p$ does not divide $n_j$ and that $\chi_j(g) \neq 0$.  Sine $|\cl(g)| = p^k$ and $n_j$
+are coprime, we can find $a,b \in \Z$ such that
+\[1 = a |\cl(g)| + b n_j.\]
+Multiplying this by $\chi_j(g)/n_j$, we get that
+\[\frac{\chi_j(g)}{n_j} = a \frac{|\cl(g)| \chi_j(g)}{n_j} + b \chi_j(g).\]
+Lemma \ref{lemma:conjugacymult} implies that this first term is an algebraic integer, and since $\chi_j(g)$
+is an algebraic integer the second term is as well.  We conclude that $\chi_j(g)/n_j$ is an algebraic
+integer, so by Lemma \ref{lemma:detectcentral} we have that $g \in Z(V_j)$, as desired.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{theorem:burnside}]
+Consider a group $G$ with $|G| = p^a q^b$ for primes $p$ and $q$.  Our goal is to prove that $G$
+is solvable.  By induction, we can assume that this holds for all such groups of smaller order.  We
+can also assume that $G$ is nonabelian since abelian groups are trivially solvable.  Finally, we can
+assume that $p$ and $q$ are distinct and that $a,b \geq 1$ since otherwise $G$ has prime power order and
+hence is nilpotent.  It is enough to prove that under these circumstances, there exists a normal subgroup
+$N \lhd G$ that is nontrivial in the sense that $1 \subsetneq N \subsetneq G$.  Indeed,
+our inductive hypothesis will then imply that both $N$ and $G/N$ are solvable, so $G$ is as well.
+
+Let $H<G$ be a Sylow $q$-subgroup.  Since $|H| = q^b$, the group $H$ is a $q$-group and thus is nilpotent.  In
+particular, its center $Z(H)$ satisfies $Z(H) \neq 1$.  Let $g \in Z(H)$ be nontrivial.  The centralizer $C_G(g)$ thus
+contains $H$, so 
+\[|\cl(g)| = |G|/|C_G(g)| = p^k \quad \quad \text{for some $k \leq a$}.\]  
+If $k=0$, then $g \in Z(G)$, so $Z(G)$ is our desired
+nontrivial normal subgroup.  If $k \geq 1$, then instead Proposition \ref{proposition:findcentral} says that
+there exists a nontrivial representation $V$ of $G$ such that $Z(V) \neq 1$.  If $V$ is not a faithful
+representation of $G$, then its kernel is the desired nontrivial normal subgroup.  If $V$ is faithful, then
+$Z(V) \neq G$ since $G$ is nonabelian, so $Z(V)$ is the desired nontrivial normal subgroup.
+\end{proof}
+
+\begin{thebibliography}{HH}
+\begin{footnotesize}
+\setlength{\itemsep}{-1mm}
+
+\bibitem{Burnside}
+W. Burnside, On Groups of Order $p^{\alpha} q^{\beta}$, Proc. London Math. Soc. (2) 1 (1904), 388--392.
+
+\bibitem{PutmanAlg}
+A. Putman, Algebraicity of matrix entries of representations, informal note.
+ 
+\end{footnotesize}
+\end{thebibliography}
+
+\begin{footnotesize}
+\noindent
+\begin{tabular*}{\linewidth}[t]{@{}p{\linewidth - \widthof{Department of Mathematics}}@{}p{\widthof{Department of Mathematics}}@{}}
+&{\raggedright
+Andrew Putman\\
+Department of Mathematics\\
+University of Notre Dame \\
+255 Hurley Hall\\
+Notre Dame, IN 46556\\
+{\tt andyp@nd.edu}}
+\end{tabular*}\hfill
+\end{footnotesize}
+
+
+\end{document}
+

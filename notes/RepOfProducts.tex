@@ -1,0 +1,273 @@
+\documentclass[11pt]{article}
+
+\title{\vspace{-50pt}Representations of products}
+\author{Andrew Putman\vspace{-6pt}}
+\date{}
+
+\usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
+\usepackage{mathtools}
+\usepackage{epsfig,pinlabel,paralist}
+\usepackage[vmargin=1in, hmargin=1.25in]{geometry}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{type1cm}
+\usepackage{calc}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage[all,cmtip]{xy}
+\usepackage{eucal}
+\usepackage{paralist}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{etoolbox}
+
+\usepackage[bookmarks, bookmarksdepth=2, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+\apptocmd{\thebibliography}{\raggedright}{}{}
+
+\newtheorem{claimx}{Claim}
+\newenvironment{claim}[1]
+ {\renewcommand\theclaimx{#1}\claimx}
+ {\endclaimx}
+
+\newtheorem{stepx}{Step}
+\newenvironment{step}[1]
+ {\renewcommand\thestepx{#1}\stepx}
+ {\endstepx}
+
+\newtheorem{substepx}{Substep}
+\newenvironment{substep}[1]
+ {\renewcommand\thesubstepx{#1}\substepx}
+ {\endsubstepx}
+
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{rochlin}{Rochlin's Theorem}
+\newtheorem*{rochlin2}{Rochlin's Theorem'}
+\newtheorem{maintheorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{unnumberedlemma}{Lemma}
+\newtheorem{sublemma}[theorem]{Sublemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+\renewcommand{\themaintheorem}{\Alph{maintheorem}}
+
+\theoremstyle{definition}
+\newtheorem*{example}{Example}
+\newtheorem{assumption}{Assumption}
+\newtheorem{defn}[theorem]{Definition}
+\newenvironment{definition}[1][]{\begin{defn}[#1]\pushQED{\qed}}{\popQED \end{defn}}
+\newtheorem{notation}[theorem]{Notation}
+
+\newtheorem*{remark}{Remark}
+
+% Sets of Functions
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Iso}{Iso}
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Homeo}{Homeo}
+\DeclareMathOperator{\Ker}{ker}
+\DeclareMathOperator{\Coker}{coker}
+\DeclareMathOperator{\Image}{Im}
+
+% My Favorite Groups
+\DeclareMathOperator{\Mod}{Mod}
+\DeclareMathOperator{\MCG}{MCG}
+\newcommand\Torelli{\ensuremath{{\mathcal I}}}
+\DeclareMathOperator{\IA}{IA}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\U}{U}
+\DeclareMathOperator{\SU}{SU}
+\newcommand\SLLie{\ensuremath{\mathfrak{sl}}}
+\newcommand\SpLie{\ensuremath{\mathfrak{sp}}}
+\newcommand\GLLie{\ensuremath{\mathfrak{gl}}}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\End}{End}
+
+% Important Spaces
+\newcommand\HBolic{\ensuremath{\mathbb{H}}}
+\newcommand\Teich{\ensuremath{{\mathcal T}}}
+\newcommand\CNosep{\ensuremath{\mathcal{CNS}}}
+\newcommand\Sphere[1]{\ensuremath{\mathbf{S}^{#1}}}
+\newcommand\Ball[1]{\ensuremath{\mathbf{B}^{#1}}}
+\newcommand\Proj{\ensuremath{\mathbb{P}}}
+\DeclareMathOperator{\Gr}{Gr}
+
+% Number Systems
+\newcommand\R{\ensuremath{\mathbb{R}}}
+\newcommand\C{\ensuremath{\mathbb{C}}}
+\newcommand\Z{\ensuremath{\mathbb{Z}}}
+\newcommand\Q{\ensuremath{\mathbb{Q}}}
+\newcommand\N{\ensuremath{\mathbb{N}}}
+\newcommand\Field{\ensuremath{\mathbb{F}}}
+\DeclareMathOperator{\Char}{char}
+
+% (Co-)Homology
+\DeclareMathOperator{\HH}{H}
+\newcommand\RH{\ensuremath{\widetilde{\HH}}}
+\newcommand\Chain{\ensuremath{{\rm C}}}
+
+% Misc
+\DeclareMathOperator{\Max}{max}
+\DeclareMathOperator{\Min}{min}
+\DeclareMathOperator{\Th}{th}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Out}{Out}
+\DeclareMathOperator{\Interior}{Int}
+\newcommand\Span[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand\CaptionSpace{\hspace{0.2in}}
+\DeclareMathOperator{\Dim}{dim}
+\newcommand\Set[2]{\ensuremath{\{\text{#1 $|$ #2}\}}}
+
+% Figures
+\newcommand\Figure[4]{
+\begin{figure}[t]
+\centering
+\centerline{\psfig{file=#2,scale=#4}}
+\caption{#3}
+\label{#1}
+\end{figure}}
+
+% Document specific macros go here
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\cl}{cl}
+\newcommand\bk{\ensuremath{\mathbf{k}}}
+\newcommand\cO{\ensuremath{\mathcal{O}}}
+\newcommand\oQ{\ensuremath{\overline{\Q}}}
+\newcommand\bbA{\ensuremath{\mathbb{A}}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We give a character-theory free proof that for finite groups $G_1$ and $G_2$, the
+irreducible representations of $G_1 \times G_2$ over an algebraically closed
+field of characteristic $0$ consist of tensor
+products of irreducible representations of the $G_i$.  Because our
+proof avoids character theory, it generalizes to many other similar situations.
+\end{abstract}
+
+The goal of this note is to prove the following theorem.
+
+\begin{maintheorem}
+\label{theorem:main}
+Let $G$ and $H$ be finite groups and let $\bk$ be an algebraically closed field of
+characteristic $0$.  The irreducible representations
+of $G \times H$ over $\bk$ are precisely those of the form $V \otimes W$, where
+$V$ and $W$ are irreducible representations of $G$ and $H$, respectively.
+\end{maintheorem}
+
+\noindent
+Here is an example to show that the assumption that $\bk$ is algebraically closed
+is necessary:
+
+\begin{example}
+Consider the action of $\Z/6$ on $\R^2$ where the generator acts as rotation by
+$e^{2\pi i/6}$.  This is an irreducible representation; however, despite the fact
+that $\Z/6 \cong \Z/3 \times \Z/2$, it does not decompose into the tensor
+product of representations of $\Z/3$ and $\Z/2$.
+\end{example}
+
+The standard proof of Theorem \ref{theorem:main} (say, from \cite{SerreBook}) uses character theory.  This
+has two downsides:
+\begin{compactitem}
+\item It is indirect, and gives little insight into why the theorem is true.
+\item It does not generalize to other situations, for instance to rational representations
+of products of reductive Lie groups.
+\end{compactitem}
+We will give a direct proof.  The only special fact we will use about finite groups
+is Maschke's theorem saying that in characteristic $0$, their representations decompose uniquely
+into direct sums of irreducible representations, so this proof applies in many other
+situations as well.
+
+\begin{proof}[Proof of Theorem \ref{theorem:main}]
+We divide the proof into two parts.
+
+\begin{claim}{1}
+Let $V$ (resp.\ $W$) be an irreducible representation of $G$ (resp.\ $H$) over $\bk$.  Then
+$V \otimes W$ is an irreducible representation of $G \times H$. 
+\end{claim}
+
+By assumption, $V$ and $W$ are simple modules over the group rings
+$\bk[G]$ and $\bk[H]$, respectively.  
+Since $\bk$ is algebraically closed, we can apply the Jacobson Density Theorem 
+(see, e.g.\ \cite{PutmanDensity})
+and see that the resulting ring maps
+$\phi\colon \bk[G] \rightarrow \End_{\bk}(V)$ and $\psi\colon \bk[H] \rightarrow \End_{\bk}(W)$ 
+are surjections.  It follows that the ring map
+\[\bk[G \times H] \cong \bk[G] \otimes \bk[H] \stackrel{\phi \otimes \psi}{\longrightarrow} \End_{\bk}(V) \otimes \End_{\bk}(W) \cong \End_{\bk}(V \otimes W)\]
+is a surjection and thus that $V \otimes W$ is a simple $\bk[G \times H]$-module, as desired.
+
+\begin{claim}{2}
+Assume that $U$ is an irreducible representation of $G \times H$ over $\bk$.  
+Then $U \cong V \otimes W$, where $V$ (resp.\ $W$) is an irreducible representation
+of $G$ (resp.\ $H$) over $\bk$.
+\end{claim}
+
+First regard $U$ as a representation of $H$.  As such, $U$ decomposes as a direct sum
+of $H$-isotypic components.  Since the action of $G$ on $U$ commutes with the action of $H$, it
+must preserve these isotypic components.  Since $U$ was assumed to be irreducible, it follows
+that $U$ must have a single $H$-isotypic component, i.e.\ that $U \cong W^{\oplus m}$ for some
+irreducible $H$-representation $W$ and some $m \geq 0$.  Consider the $\bk$-linear map
+\[\Psi\colon \Hom_H(W,U) \otimes W \rightarrow U\]
+defined via the formula $\Psi(\rho \otimes \vec{w}) = \rho(\vec{w})$.  
+Since $U \cong W^{\oplus m}$, this
+map is surjective.  Also, since $\bk$ is algebraically closed we can apply Schur's Lemma to see
+that
+\[\Hom_H(W,U) = \Hom_H(W,W^{\oplus m}) \cong \bk^m.\]
+We deduce that $\Psi$ is a surjective linear map between vector spaces of the same dimension, 
+so $\Psi$ is an isomorphism.
+
+The commuting actions of $G$ and $H$ on $U$ thus can be transported via $\Psi$ to give commuting
+actions of $G$ and $H$ on $\Hom_H(W,U) \otimes W$.  These actions are easily understood:
+\begin{compactitem}
+\item The group $H$ acts trivially on $\Hom_H(W,U)$ and acts on $W$ as the given representation.  Indeed, for
+$h \in H$ and $\rho \in \Hom_H(W,U)$ and $\vec{w} \in W$ we have
+\[h \cdot \Psi(\rho \otimes \vec{w}) = h \cdot \rho(\vec{w}) = \rho(h \cdot \vec{w}) = \Psi(\rho \otimes h \cdot \vec{w}).\]
+\item The group $G$ acts on $\Hom_H(W,U)$ by postcomposition (via its action on $U$) and acts trivially on
+$W$.  Indeed, for $g \in G$ and $\rho \in \Hom_H(W,U)$ and $\vec{w} \in W$ we have
+\[g \cdot \Psi(\rho \otimes \vec{w}) = g \cdot \rho(\vec{w}) = (g \cdot \rho)(\vec{w}) = \Psi(g \cdot \rho \otimes \vec{w}).\]
+\end{compactitem}
+Since $U$ was assumed to be irreducible, it follows that $V:=\Hom_H(W,U)$ must be an irreducible
+$G$-representation.
+The decomposition $U \cong V \otimes W$ is precisely the one we claimed must exist.
+\end{proof}
+
+\begin{thebibliography}{HH}
+\begin{footnotesize}
+\setlength{\itemsep}{-1mm}
+
+\bibitem{PutmanDensity}
+A. Putman, The Jacobson density theorem, informal note.
+
+\bibitem{SerreBook}
+J.-P. Serre, {\it Linear representations of finite groups}, translated from the second French edition by Leonard L. Scott, Springer-Verlag, New York, 1977.
+
+\end{footnotesize}
+\end{thebibliography}
+
+\begin{footnotesize}
+\noindent
+\begin{tabular*}{\linewidth}[t]{@{}p{\linewidth - \widthof{Department of Mathematics}}@{}p{\widthof{Department of Mathematics}}@{}}
+&{\raggedright
+Andrew Putman\\
+Department of Mathematics\\
+University of Notre Dame \\
+255 Hurley Hall\\
+Notre Dame, IN 46556\\
+{\tt andyp@nd.edu}}
+\end{tabular*}\hfill
+\end{footnotesize}
+
+
+\end{document}
+

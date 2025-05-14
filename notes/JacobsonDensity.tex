@@ -1,0 +1,254 @@
+\documentclass[11pt]{article}
+
+\title{\vspace{-50pt}The Jacobson density theorem}
+\author{Andrew Putman\vspace{-6pt}}
+\date{}
+
+\usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
+\usepackage{mathtools}
+\usepackage{epsfig,pinlabel,paralist}
+\usepackage[vmargin=1in, hmargin=1.25in]{geometry}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{type1cm}
+\usepackage{calc}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage[all,cmtip]{xy}
+\usepackage{eucal}
+\usepackage{paralist}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{etoolbox}
+
+\usepackage[bookmarks, bookmarksdepth=2, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+\apptocmd{\thebibliography}{\raggedright}{}{}
+
+\newtheorem{stepx}{Step}
+\newenvironment{step}[1]
+ {\renewcommand\thestepx{#1}\stepx}
+ {\endstepx}
+
+\newtheorem{substepx}{Substep}
+\newenvironment{substep}[1]
+ {\renewcommand\thesubstepx{#1}\substepx}
+ {\endsubstepx}
+
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{rochlin}{Rochlin's Theorem}
+\newtheorem*{rochlin2}{Rochlin's Theorem'}
+\newtheorem{maintheorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{unnumberedlemma}{Lemma}
+\newtheorem{sublemma}[theorem]{Sublemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+\renewcommand{\themaintheorem}{\Alph{maintheorem}}
+
+\theoremstyle{definition}
+\newtheorem*{example}{Example}
+\newtheorem{assumption}{Assumption}
+\newtheorem{defn}[theorem]{Definition}
+\newenvironment{definition}[1][]{\begin{defn}[#1]\pushQED{\qed}}{\popQED \end{defn}}
+\newtheorem{notation}[theorem]{Notation}
+
+\newtheorem*{remark}{Remark}
+
+% Sets of Functions
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Iso}{Iso}
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Homeo}{Homeo}
+\DeclareMathOperator{\Ker}{ker}
+\DeclareMathOperator{\Coker}{coker}
+\DeclareMathOperator{\Image}{Im}
+
+% My Favorite Groups
+\DeclareMathOperator{\Mod}{Mod}
+\DeclareMathOperator{\MCG}{MCG}
+\newcommand\Torelli{\ensuremath{{\mathcal I}}}
+\DeclareMathOperator{\IA}{IA}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\U}{U}
+\DeclareMathOperator{\SU}{SU}
+\newcommand\SLLie{\ensuremath{\mathfrak{sl}}}
+\newcommand\SpLie{\ensuremath{\mathfrak{sp}}}
+\newcommand\GLLie{\ensuremath{\mathfrak{gl}}}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\End}{End}
+
+% Important Spaces
+\newcommand\HBolic{\ensuremath{\mathbb{H}}}
+\newcommand\Teich{\ensuremath{{\mathcal T}}}
+\newcommand\CNosep{\ensuremath{\mathcal{CNS}}}
+\newcommand\Sphere[1]{\ensuremath{\mathbf{S}^{#1}}}
+\newcommand\Ball[1]{\ensuremath{\mathbf{B}^{#1}}}
+\newcommand\Proj{\ensuremath{\mathbb{P}}}
+\DeclareMathOperator{\Gr}{Gr}
+
+% Number Systems
+\newcommand\R{\ensuremath{\mathbb{R}}}
+\newcommand\C{\ensuremath{\mathbb{C}}}
+\newcommand\Z{\ensuremath{\mathbb{Z}}}
+\newcommand\Q{\ensuremath{\mathbb{Q}}}
+\newcommand\N{\ensuremath{\mathbb{N}}}
+\newcommand\Field{\ensuremath{\mathbb{F}}}
+\DeclareMathOperator{\Char}{char}
+
+% (Co-)Homology
+\DeclareMathOperator{\HH}{H}
+\newcommand\RH{\ensuremath{\widetilde{\HH}}}
+\newcommand\Chain{\ensuremath{{\rm C}}}
+
+% Misc
+\DeclareMathOperator{\Max}{max}
+\DeclareMathOperator{\Min}{min}
+\DeclareMathOperator{\Th}{th}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Out}{Out}
+\DeclareMathOperator{\Interior}{Int}
+\newcommand\Span[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand\CaptionSpace{\hspace{0.2in}}
+\DeclareMathOperator{\Dim}{dim}
+\newcommand\Set[2]{\ensuremath{\{\text{#1 $|$ #2}\}}}
+
+% Figures
+\newcommand\Figure[4]{
+\begin{figure}[t]
+\centering
+\centerline{\psfig{file=#2,scale=#4}}
+\caption{#3}
+\label{#1}
+\end{figure}}
+
+% Document specific macros go here
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\cl}{cl}
+\newcommand\bk{\ensuremath{\mathbf{k}}}
+\newcommand\cO{\ensuremath{\mathcal{O}}}
+\newcommand\oQ{\ensuremath{\overline{\Q}}}
+\newcommand\bbA{\ensuremath{\mathbb{A}}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We prove the Jacobson density theorem concerning simple modules over rings.  This
+implies, for instance, that if $G$ is a group and $V$ is a finite-dimensional
+irreducible complex representation of $G$, then the natural map
+$\C[G] \rightarrow \End_{\C}(V)$ is surjective.
+\end{abstract}
+
+Let $R$ be a ring, not necessarily commutative.  For a simple left $R$-module $M$,
+Schur's Lemma implies that $D = \End_R(M)$ is a division ring.  In this note,
+we prove the following theorem, which is known as the Jacobson Density Theorem \cite{Jacobson}.
+
+\begin{maintheorem}
+\label{theorem:jacobson}
+Let $R$ be a ring and let $M$ be a simple left $R$-module.  Set $D = \End_R(M)$.  Let
+$x_1,\ldots,x_n \in M$ be linearly independent over $D$.  Then for all
+$y_1,\ldots,y_n \in M$, there exists some $r \in R$ such that $r \cdot x_i = y_i$
+for all $1 \leq i \leq n$.
+\end{maintheorem}
+
+Here is an instructive special case.  Assume that $G$ is a finite group and
+that $V$ is an $n$-dimensional irreducible representation of $G$ over $\C$.
+Thus $V$ is a simple left $\C[G]$-module, and Schur's Lemma implies that
+$\End_{\C[G]}(V) = \C$.  Fixing
+a basis $\{\vec{v}_1,\ldots,\vec{v}_n\}$ for $V$ as a complex vector space,
+the elements $\vec{v}_1,\ldots,\vec{v}_n$ are linearly independent over $\End_{\C[G]}(V)$,
+so Theorem \ref{theorem:jacobson} says that for all $\vec{w}_1,\ldots,\vec{w}_n \in V$,
+there exists some $\omega \in \C[G]$ such that $\omega \cdot \vec{v}_i = \vec{w}_i$ for
+all $1 \leq i \leq n$.  In other words, the natural map
+\[\C[G] \longrightarrow \End_{\C}(V) \cong \Mat_n(\C)\]
+is surjective.  Of course, this special case was known before Theorem
+\ref{theorem:jacobson}, and in fact follows immediately from the
+Wedderburn Structure Theorem, which says that $\C[G]$ is a product
+of matrix rings over $\C$.
+
+\begin{proof}[Proof of Theorem \ref{theorem:jacobson}]
+The proof will be by induction on $n$.  For the base case $n=1$, we have
+$x_1 \neq 0$ since $x_1$ itself is linearly independent over $D$.  Since $M$
+is simple, the $R$-orbit of $x_1$ must therefore be $M$, and in particular
+we can find some $r \in R$ such that $r \cdot x_1 = y_1$.
+
+Assume now that $n>1$ and that the theorem is true for all smaller $n$.  Below
+we will prove the following:
+\begin{compactitem}
+\item[($\dagger$)] 
+There exist $\lambda_1,\ldots,\lambda_n \in R$ such that $\lambda_i \cdot x_i \neq 0$
+for all $1 \leq i \leq n$ and $\lambda_i \cdot x_j = 0$ for all distinct
+$1 \leq i,j \leq n$.
+\end{compactitem}
+Before we do this, we explain why it implies the theorem.  By the base case $n=1$,
+for $1 \leq i \leq n$ we can find some $r_i \in R$ such that $r_i \lambda_i \cdot x_i = y_i$.
+Setting
+\[r = r_1 \lambda_1 + \cdots + r_n \lambda_n \in R,\]
+for $1 \leq i \leq n$ we then have
+\[r \cdot x_i = (r_1 \lambda_1 + \cdots + r_n \lambda_n) \cdot x_i = r_i \lambda_i \cdot x_i = y_i,\]
+as desired.
+
+It remains to prove ($\dagger$).  To keep the notation from getting out of hand, we will show how
+to construct $\lambda_n$.  Assume to the contrary 
+that the desired $\lambda_n$ does not exist.  What this means is that
+\begin{compactitem}
+\item[($\dagger\dagger$)] if $\lambda \in R$ satisfies $\lambda \cdot x_i = 0$ for $1 \leq i \leq n-1$, then $\lambda \cdot x_n = 0$.
+\end{compactitem}
+We now define an $R$-linear map $\phi\colon M^{n-1} \rightarrow M$ as follows.
+Consider $(z_1,\ldots,z_{n-1}) \in M^{n-1}$.  By our inductive hypothesis, there exists
+some $a \in R$ such that $a \cdot x_i = z_i$ for $1 \leq i \leq n-1$.  We then
+define
+\[\phi(z_1,\ldots,z_{n-1}) = a \cdot x_n.\]
+Of course, this depends a priori on the choice of $a$, but if $a' \in R$ also satisfies
+$a' \cdot x_i = z_i$ for $1 \leq i \leq n-1$, then $(a-a') \cdot x_i = 0$ for
+$1 \leq i \leq n-1$, so ($\dagger\dagger$) implies that $(a-a') \cdot x_n = 0$, 
+and thus $a \cdot x_n = a' \cdot x_n$.  It follows that $\phi$ is well-defined.
+
+For $1 \leq i \leq n-1$, define $\zeta_i \in \End_R(M)$ to be the composition
+\[M \hookrightarrow M^{n-1} \stackrel{\phi}{\rightarrow} M,\]
+where the first inclusion is the inclusion into the $i^{\text{th}}$ factor.  For
+$z_1,\ldots,z_{n-1} \in M$, we thus have
+\[\phi(z_1,\ldots,z_{n-1}) = \zeta_1 \cdot z_1+\cdots+\zeta_{n-1} \cdot z_{n-1}.\]
+In particular, we have
+\[x_n = 1 \cdot x_n = \phi(x_1,\ldots,x_{n-1}) = \zeta_1 \cdot x_1+\cdots+\zeta_{n-1} \cdot z_{n-1}.\]
+This contradicts the fact that the $x_i$ are linearly independent over $D = \End_R(M)$.
+It follows that our assumption that $\lambda_n$ does not exist is false, so it exists.
+\end{proof}
+
+\begin{thebibliography}{HH}
+\begin{footnotesize}
+\setlength{\itemsep}{-1mm}
+
+\bibitem{Jacobson}
+N. Jacobson, Structure theory of simple rings without finiteness assumptions, Trans. Amer. Math. Soc. {\bf 57} (1945), 228--245. 
+
+\end{footnotesize}
+\end{thebibliography}
+
+\begin{footnotesize}
+\noindent
+\begin{tabular*}{\linewidth}[t]{@{}p{\linewidth - \widthof{Department of Mathematics}}@{}p{\widthof{Department of Mathematics}}@{}}
+&{\raggedright
+Andrew Putman\\
+Department of Mathematics\\
+University of Notre Dame \\
+255 Hurley Hall\\
+Notre Dame, IN 46556\\
+{\tt andyp@nd.edu}}
+\end{tabular*}\hfill
+\end{footnotesize}
+
+
+\end{document}
+

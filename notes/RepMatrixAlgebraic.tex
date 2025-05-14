@@ -1,0 +1,257 @@
+\documentclass[11pt]{article}
+
+\title{\vspace{-50pt}Algebraicity of matrix entries of representations}
+\author{Andrew Putman\vspace{-6pt}}
+\date{}
+
+\usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
+\usepackage{mathtools}
+\usepackage{epsfig,pinlabel,paralist}
+\usepackage[vmargin=1in, hmargin=1.25in]{geometry}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{type1cm}
+\usepackage{calc}
+\usepackage{enumerate}
+\usepackage{bm}
+\usepackage[all,cmtip]{xy}
+\usepackage{eucal}
+\usepackage{paralist}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{etoolbox}
+
+\usepackage[bookmarks, bookmarksdepth=2, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+\apptocmd{\thebibliography}{\raggedright}{}{}
+
+\newtheorem{stepx}{Step}
+\newenvironment{step}[1]
+ {\renewcommand\thestepx{#1}\stepx}
+ {\endstepx}
+
+\newtheorem{substepx}{Substep}
+\newenvironment{substep}[1]
+ {\renewcommand\thesubstepx{#1}\substepx}
+ {\endsubstepx}
+
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{rochlin}{Rochlin's Theorem}
+\newtheorem*{rochlin2}{Rochlin's Theorem'}
+\newtheorem{maintheorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{unnumberedlemma}{Lemma}
+\newtheorem{sublemma}[theorem]{Sublemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+\renewcommand{\themaintheorem}{\Alph{maintheorem}}
+
+\theoremstyle{definition}
+\newtheorem*{example}{Example}
+\newtheorem{assumption}{Assumption}
+\newtheorem{defn}[theorem]{Definition}
+\newenvironment{definition}[1][]{\begin{defn}[#1]\pushQED{\qed}}{\popQED \end{defn}}
+\newtheorem{notation}[theorem]{Notation}
+
+\newtheorem*{remark}{Remark}
+
+% Sets of Functions
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Iso}{Iso}
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Homeo}{Homeo}
+\DeclareMathOperator{\Ker}{ker}
+\DeclareMathOperator{\Coker}{coker}
+\DeclareMathOperator{\Image}{Im}
+
+% My Favorite Groups
+\DeclareMathOperator{\Mod}{Mod}
+\DeclareMathOperator{\MCG}{MCG}
+\newcommand\Torelli{\ensuremath{{\mathcal I}}}
+\DeclareMathOperator{\IA}{IA}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\U}{U}
+\DeclareMathOperator{\SU}{SU}
+\newcommand\SLLie{\ensuremath{\mathfrak{sl}}}
+\newcommand\SpLie{\ensuremath{\mathfrak{sp}}}
+\newcommand\GLLie{\ensuremath{\mathfrak{gl}}}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\End}{End}
+
+% Important Spaces
+\newcommand\HBolic{\ensuremath{\mathbb{H}}}
+\newcommand\Teich{\ensuremath{{\mathcal T}}}
+\newcommand\CNosep{\ensuremath{\mathcal{CNS}}}
+\newcommand\Sphere[1]{\ensuremath{\mathbf{S}^{#1}}}
+\newcommand\Ball[1]{\ensuremath{\mathbf{B}^{#1}}}
+\newcommand\Proj{\ensuremath{\mathbb{P}}}
+\DeclareMathOperator{\Gr}{Gr}
+
+% Number Systems
+\newcommand\R{\ensuremath{\mathbb{R}}}
+\newcommand\C{\ensuremath{\mathbb{C}}}
+\newcommand\Z{\ensuremath{\mathbb{Z}}}
+\newcommand\Q{\ensuremath{\mathbb{Q}}}
+\newcommand\N{\ensuremath{\mathbb{N}}}
+\newcommand\Field{\ensuremath{\mathbb{F}}}
+\DeclareMathOperator{\Char}{char}
+
+% (Co-)Homology
+\DeclareMathOperator{\HH}{H}
+\newcommand\RH{\ensuremath{\widetilde{\HH}}}
+\newcommand\Chain{\ensuremath{{\rm C}}}
+
+% Misc
+\DeclareMathOperator{\Max}{max}
+\DeclareMathOperator{\Min}{min}
+\DeclareMathOperator{\Th}{th}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Out}{Out}
+\DeclareMathOperator{\Interior}{Int}
+\newcommand\Span[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand\CaptionSpace{\hspace{0.2in}}
+\DeclareMathOperator{\Dim}{dim}
+\newcommand\Set[2]{\ensuremath{\{\text{#1 $|$ #2}\}}}
+
+% Figures
+\newcommand\Figure[4]{
+\begin{figure}[t]
+\centering
+\centerline{\psfig{file=#2,scale=#4}}
+\caption{#3}
+\label{#1}
+\end{figure}}
+
+% Document specific macros go here
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\cl}{cl}
+\newcommand\bk{\ensuremath{\mathbf{k}}}
+\newcommand\cO{\ensuremath{\mathcal{O}}}
+\newcommand\oQ{\ensuremath{\overline{\Q}}}
+\newcommand\bbA{\ensuremath{\mathbb{A}}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We prove that with respect to an appropriate basis, the matrices associated
+to complex representations of finite groups have entries lying in algebraic
+number rings.  
+\end{abstract}
+
+Fix a finite group $G$.  All representations of $G$ discussed in this note are
+finite dimensional.  Given an $n$-dimensional $\C$-representation $V$ of $G$, we will
+say that $V$ is defined over a subring $R$ of $\C$ if there is an
+$R[G]$-module $V'$ with the following two properties:
+\begin{compactitem}
+\item $V'$ is a rank-$n$ free $R$-module.
+\item There is an isomorphism $V' \otimes_R \C \cong V$ of $\C[G]$-modules.
+\end{compactitem}
+A more pedestrian way of saying this is that with respect an appropriate
+basis for $V$, the matrices representing the action of $G$ on $V$
+have entries in $\GL_n(R) \subset \GL_n(\C)$.
+
+Recall that a number ring $\cO_{\bk}$ is the ring of integers in an algebraic
+number field $\bk$, i.e.\ a finite extension of $\Q$.  The goal of this note
+is to prove the following standard theorem.
+
+\begin{maintheorem}
+\label{theorem:algebraicnumber}
+For all $\C$-representations $V$ of $G$, there exists a number ring
+$\cO_{\bk}$ such that $V$ is defined over $\cO_{\bk}$.
+\end{maintheorem}
+\begin{proof}
+The proof will have two steps.
+
+\begin{step}{1}
+There exists an algebraic number field $\bk$ such that $V$ is defined
+over $\bk$.
+\end{step}
+
+Since $G$ is finite, it is enough to show that $V$ is defined over $\oQ$.
+Without loss of generality, $V$ is irreducible.  This implies that
+$V$ is isomorphic to a subrepresentation of the regular representation $\C[G]$.
+The regular representation $\oQ[G]$ over $\oQ$ can be decomposed as a direct
+sum of irreducible representations, and the only thing that might go wrong
+is that this decomposition might not be fine enough, i.e.\
+there is an irreducible subrepresentation $W$ of $\oQ[G]$ such that
+$W \otimes \C$ is reducible and $V$ is isomorphic to a proper
+subrepresentation of $W \otimes \C$.
+
+Assume that this happens.  Let $n = \dim(V)$, and define
+\[X = \Set{$U \in \Gr_n(W)$}{$g(U) = U$ for all $g \in G$}.\]
+Thus $X$ is a closed subvariety of the Grassmannian $\Gr_n(W)$, which is a projective variety
+defined over $\oQ$.  Our assumption that $W$ is irreducible implies
+that $X(\oQ) = \emptyset$, while our assumption that $W \otimes \C$ is reducible
+and $V$ is isomorphic to a proper subrepresentation of $W \otimes \C$ implies
+that $X(\C) \neq \emptyset$.
+
+This is impossible.  Indeed, if $Y \subset \bbA^m_{\oQ}$ is an open affine
+subset of $X$ defined by a radical ideal $I \subset \oQ[x_0,\ldots,x_m]$, then 
+since $Y(\oQ) = \emptyset$ the
+Nullstellensatz says that $I = \oQ[x_0,\ldots,x_m]$.  This is preserved when we
+extend scalars to $\C$, i.e.\ we have
+\[Y(\C) = V(I \otimes \C) = V(\C[x_0,\ldots,x_m]) = \emptyset.\]
+The desired result follows.
+
+\begin{step}{2}
+There exists a finite extension $\bk'$ of $\bk$ such that $V$ is defined
+over $\cO_{\bk'}$.
+\end{step}
+
+By the previous step, there exists an action of $G$ on $\bk^n$ such that
+$V \cong \bk^n \otimes \C$ as $\C[G]$-modules.  Let $L \subset \bk^n$ be
+$\cO_{\bk}$-submodule spanned by the $G$-orbit of the standard lattice
+$\cO_{\bk}^n \subset \bk^n$, so $L$ is a finitely generated $\cO_{\bk}$-submodule
+of $\bk^n$ that is preserved by $G$ 
+such that $L \otimes \bk = \bk^n$.  If we had an $\cO_{\bk}$-module isomorphism
+$L \cong \cO_{\bk}^n$, then we would be done.  Unfortunately, this need not be true;
+however, the classification of finitely generated modules over a Dedekind domain
+shows that
+\[L \cong I_1 \oplus \cdots \oplus I_n\]
+for some nonzero ideals $I_1,\ldots,I_n  \subset \cO_{\bk}$.
+
+The problem is that the $I_i$ might not be principal ideals, i.e.\ they might
+define nonzero elements $[I_i]$ of the class group $\cl(\cO_{\bk})$.  The
+class group is a finite abelian group, so we can find
+$k_1,\ldots,k_n \geq 1$ such that $k_i [I_i] = 0$.  Pick the $k_i$ to
+be the minimal such integers.  By definition, the ideal $I_i^{k_i}$ is
+principal, i.e.\ there exists some $a_i \in \cO_{\bk}$ such that
+\[I_i^{k_i} = (a_i).\]
+Define
+\[\bk' = \bk[a_1^{1/k_1},\ldots,a_n^{1/k_n}],\]
+so
+\[I_i \otimes_{\cO_{\bk}} \cO_{\bk'} = (a_i^{1/k_i}) \subset \cO_{\bk'}.\]
+Setting 
+\[L' = L \otimes_{\cO_{\bk}} \cO_{\bk'} \subset (\bk')^n,\]
+we then have
+\[L' \cong (I_1 \otimes \cO_{\bk'}) \oplus \cdots \oplus (I_n \otimes \cO_{\bk'}) \cong \cO_{\bk'}^n.\]
+We conclude that our original representation is defined over $\cO_{\bk'}$, as desired.
+\end{proof}
+
+\begin{footnotesize}
+\noindent
+\begin{tabular*}{\linewidth}[t]{@{}p{\linewidth - \widthof{Department of Mathematics}}@{}p{\widthof{Department of Mathematics}}@{}}
+&{\raggedright
+Andrew Putman\\
+Department of Mathematics\\
+University of Notre Dame \\
+255 Hurley Hall\\
+Notre Dame, IN 46556\\
+{\tt andyp@nd.edu}}
+\end{tabular*}\hfill
+\end{footnotesize}
+
+
+\end{document}
+
