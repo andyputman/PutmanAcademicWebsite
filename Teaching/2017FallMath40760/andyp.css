@@ -1,0 +1,40 @@
+body {
+    font-family: 'HelveticaNeue-Light', Helvetica, Arial, sans-serif;
+    line-height: 1.5em;
+    font-size: 16pt;
+
+    color: #333;
+    padding: 2em;
+    margin: 0;
+    max-width: 900px;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #0069D6;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1, h2, h3 {
+    color: #00346B;
+    line-height: 1.1em;
+    font-weight: normal;
+}
+
+h2 {
+    margin-bottom: 1ex;
+}
+
+
+sup, sub { vertical-align: 0;
+           position: relative; }
+sup { bottom: 1ex; }
+sub { top: 0.8ex; }
