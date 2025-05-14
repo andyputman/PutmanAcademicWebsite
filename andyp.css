@@ -1,0 +1,122 @@
+
+body {
+    font-family: 'HelveticaNeue-Light', Helvetica, Arial, sans-serif;
+    line-height: 1.5em;
+    font-size: 16pt;
+
+    color: #333;
+    padding: 2em;
+    margin: 0;
+    max-width: 900px;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #0069D6;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#header-wrapper {
+    padding: 0;
+}
+
+#header {
+    display: table;
+    height: 140px;
+}
+
+#title-block {
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+}
+
+#title {
+    margin: 0;
+    margin-bottom: 1ex;
+}
+
+#subtitle {
+    margin: 0;
+}
+
+#myphoto {
+    float: left;
+    height: 140px;
+    padding-right: 2em;
+
+}
+
+#content {
+
+    text-align: justify;
+    text-justify: newspaper;
+}
+
+h1, h2, h3 {
+    color: #00346B;
+    line-height: 1.1em;
+    font-weight: normal;
+}
+
+h2 {
+    margin-bottom: 1ex;
+}
+
+
+
+.clear {
+    clear: both;
+}
+
+ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+li {
+    margin-bottom: 1ex;
+}
+
+ul li:before {
+    color: #555;
+    content: "\00BB \0020";
+    padding-right: 0.4ex;
+}
+
+.email {
+}
+
+.paper {
+    text-align: left;
+}
+
+.paper-authors {
+
+}
+
+.paper-title {
+    font-weight: bold;
+}
+
+.paper-publisher {
+    font-style: italic;
+}
+
+.paper-links {
+    font-size: 90%;
+}
+
+.paper-notes {
+    color: #555;
+}
